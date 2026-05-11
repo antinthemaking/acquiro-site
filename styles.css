@@ -756,18 +756,18 @@ a.logo-cell:hover {
 }
 
 /* Image logos — uniform height for visual alignment.
-   Force to greyscale + white via filter, render at ac-mute-ish grey. */
+   Force to white via filter, render at clean mid-tone opacity. */
 .logo-cell img {
-  max-height: 30px;
-  max-width: 130px;
+  max-height: 34px;
+  max-width: 135px;
   width: auto;
   height: auto;
   object-fit: contain;
   filter: brightness(0) invert(1);
-  opacity: 0.45;
+  opacity: 0.55;
   transition: opacity var(--d-2) var(--ease-out);
 }
-a.logo-cell:hover img { opacity: 0.9; }
+a.logo-cell:hover img { opacity: 1; }
 
 /* Text fallback when there's no logo file yet */
 .logo-cell--text {
