@@ -20,7 +20,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="preconnect" href="https://app.iclosed.io" crossorigin />
-  <link rel="stylesheet" href="/styles.css" />
+  <link rel="stylesheet" href="/styles.css?v=2" />
 </head>
 <body>
 
@@ -62,6 +62,170 @@
         <div class="hero__ctas">
           <a class="btn btn--primary btn--lg" href="/book">Book a Call →</a>
           <a class="btn btn--secondary btn--lg" href="/work">See the work</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         02 · Trust strip — scrolling logo marquee
+         ============================================ -->
+    <section class="section section--tight" aria-label="Trusted by">
+      <div class="container">
+        <p class="trust-meta">
+          Trusted by <span class="trust-meta__pop">100+ brands</span> across <span class="trust-meta__pop">5 continents</span>
+        </p>
+      </div>
+      <div class="logo-strip" aria-hidden="false">
+        <div class="logo-strip__edge-l"></div>
+        <div class="logo-strip__track">
+          <!-- First copy -->
+          <a class="logo-cell" href="/work/chrono-hub" aria-label="Chrono Hub — case study">
+            <img src="/assets/logos/clients/chrono-hub.svg" alt="Chrono Hub" />
+            <span class="logo-cell__badge">Case Study</span>
+          </a>
+          <a class="logo-cell" href="/work/nomadic" aria-label="Nomadic — case study">
+            <img src="/assets/logos/clients/nomadic.png" alt="Nomadic" />
+            <span class="logo-cell__badge">Case Study</span>
+          </a>
+          <a class="logo-cell logo-cell--text" href="/work/nick-gamroth" aria-label="Nick Gamroth Coaching — case study">
+            Nick Gamroth
+            <span class="logo-cell__badge">Case Study</span>
+          </a>
+          <span class="logo-cell logo-cell--text">Soho Garden</span>
+          <a class="logo-cell logo-cell--text logo-cell--anon" href="/work/activewear" aria-label="Activewear brand — case study">
+            Activewear<sup>⌃</sup>
+            <span class="logo-cell__badge">Case Study</span>
+          </a>
+          <a class="logo-cell logo-cell--text logo-cell--anon" href="/work/beauty" aria-label="UK beauty brand — case study">
+            UK Beauty<sup>⌃</sup>
+            <span class="logo-cell__badge">Case Study</span>
+          </a>
+          <a class="logo-cell logo-cell--text logo-cell--anon" href="/work/homeware" aria-label="UK homeware brand — case study">
+            UK Homeware<sup>⌃</sup>
+            <span class="logo-cell__badge">Case Study</span>
+          </a>
+          <span class="logo-cell logo-cell--text logo-cell--anon">FTSE 100<sup>⌃</sup></span>
+
+          <!-- Duplicate (seamless loop) -->
+          <a class="logo-cell" href="/work/chrono-hub" aria-hidden="true" tabindex="-1">
+            <img src="/assets/logos/clients/chrono-hub.svg" alt="" />
+            <span class="logo-cell__badge">Case Study</span>
+          </a>
+          <a class="logo-cell" href="/work/nomadic" aria-hidden="true" tabindex="-1">
+            <img src="/assets/logos/clients/nomadic.png" alt="" />
+            <span class="logo-cell__badge">Case Study</span>
+          </a>
+          <a class="logo-cell logo-cell--text" href="/work/nick-gamroth" aria-hidden="true" tabindex="-1">
+            Nick Gamroth
+            <span class="logo-cell__badge">Case Study</span>
+          </a>
+          <span class="logo-cell logo-cell--text" aria-hidden="true">Soho Garden</span>
+          <a class="logo-cell logo-cell--text logo-cell--anon" href="/work/activewear" aria-hidden="true" tabindex="-1">
+            Activewear<sup>⌃</sup>
+            <span class="logo-cell__badge">Case Study</span>
+          </a>
+          <a class="logo-cell logo-cell--text logo-cell--anon" href="/work/beauty" aria-hidden="true" tabindex="-1">
+            UK Beauty<sup>⌃</sup>
+            <span class="logo-cell__badge">Case Study</span>
+          </a>
+          <a class="logo-cell logo-cell--text logo-cell--anon" href="/work/homeware" aria-hidden="true" tabindex="-1">
+            UK Homeware<sup>⌃</sup>
+            <span class="logo-cell__badge">Case Study</span>
+          </a>
+          <span class="logo-cell logo-cell--text logo-cell--anon" aria-hidden="true">FTSE 100<sup>⌃</sup></span>
+        </div>
+        <div class="logo-strip__edge-r"></div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         03 · Problem / opportunity — lead with opportunity, set up the Funnel
+         ============================================ -->
+    <section class="section" aria-label="Architecture first">
+      <div class="container">
+        <div class="problem-block reveal">
+          <div class="eyebrow">The opportunity</div>
+          <h2 class="t-display problem-block__headline">
+            Most agencies run ads on top of <span class="muted">broken systems.</span><br/>
+            We build the system <span class="accent">first.</span>
+          </h2>
+          <p class="t-sub problem-block__sub">
+            Architecture before ads. Once the system is in place, paid media doesn't just generate leads — it compounds across the entire stack. Every action feeds the next, and the machine gets sharper over time.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         GAP: Batches 2–5 land here.
+         Section 04 Infinite Funnel · 05 Four-Pillar · 06 Acquiro OS
+         · 07 Case studies · 08 Stat strip
+         ============================================ -->
+
+    <!-- ============================================
+         09 · Pathways teaser — three cards driving to /services
+         ============================================ -->
+    <section class="section section--sunken" aria-label="Pathways">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="eyebrow">The Acquisition Sprint</div>
+          <h2 class="t-display">Three pathways. <span class="muted">One commitment.</span></h2>
+          <p class="t-sub" style="color: var(--ac-mute); max-width: 60ch; margin-inline: auto;">
+            Every engagement starts with a 90-day Sprint. Inside it, you pick the pathway that fits your stage.
+          </p>
+        </div>
+
+        <div class="pathways-grid">
+          <a class="card pathway-teaser" href="/services#foundation">
+            <div class="pathway-teaser__num">01 · FOUNDATION</div>
+            <div class="pathway-teaser__title">Senior media buyer.</div>
+            <p class="pathway-teaser__desc">For businesses with the acquisition architecture already in place who want a senior operator running their paid media.</p>
+            <span class="btn btn--tertiary">Explore Foundation</span>
+          </a>
+
+          <a class="card pathway-teaser pathway-teaser--featured" href="/services#growth">
+            <div class="pathway-teaser__num">02 · GROWTH</div>
+            <div class="pathway-teaser__title">Strategic partner.</div>
+            <p class="pathway-teaser__desc">For founders who want a strategic partner embedded in their growth, actively building the wider acquisition system with them.</p>
+            <span class="btn btn--tertiary">Explore Growth</span>
+          </a>
+
+          <a class="card pathway-teaser" href="/services#accelerator">
+            <div class="pathway-teaser__num">03 · ACCELERATOR</div>
+            <div class="pathway-teaser__title">Done for you.</div>
+            <p class="pathway-teaser__desc">For established businesses that want their acquisition system built end-to-end and run for them. 90 days, fully delivered.</p>
+            <span class="btn btn--tertiary">Explore Accelerator</span>
+          </a>
+        </div>
+
+        <div class="pathways-cta">
+          <a class="btn btn--primary btn--lg" href="/services">See all pathways →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         10 · Founder close — credibility bridge before the footer
+         ============================================ -->
+    <section class="section" aria-label="From the founder">
+      <div class="container">
+        <div class="founder-close reveal">
+          <div class="founder-close__photo">
+            <div class="founder-close__photo-placeholder">
+              <span class="t-mono founder-close__photo-label">FOUNDER PHOTO</span>
+            </div>
+          </div>
+          <div class="founder-close__copy">
+            <div class="eyebrow">From the founder</div>
+            <p class="t-title founder-close__quote">
+              "Most agencies sell campaigns. We build the system that makes those campaigns compound — and we stay in the seat to keep it sharp."
+            </p>
+            <p class="founder-close__attribution">
+              <span class="founder-close__name">Anthony Adeloye</span>
+              <span class="founder-close__role">Founder · 100+ clients · 5 continents</span>
+            </p>
+            <a class="btn btn--secondary" href="/about">About Acquiro →</a>
+          </div>
         </div>
       </div>
     </section>
