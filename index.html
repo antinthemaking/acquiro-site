@@ -20,7 +20,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="preconnect" href="https://app.iclosed.io" crossorigin />
-  <link rel="stylesheet" href="/styles.css?v=12" />
+  <link rel="stylesheet" href="/styles.css?v=13" />
 </head>
 <body>
 
@@ -66,77 +66,84 @@
       </div>
 
       <!-- ============================================
-           02 · Trust strip — inside the hero (Genesy pattern).
-           Sits below the CTAs, full-bleed marquee. Stays above the fold.
+           02 · Trust strip — anchored at bottom of hero (Genesy pattern).
+           Absolute-positioned via .hero__bottom so the main content above
+           centers between header and trust strip, not within the whole hero.
            ============================================ -->
-      <div class="hero__trust">
-        <p class="trust-meta">
-          Trusted by <span class="trust-meta__pop">100+ brands</span> across <span class="trust-meta__pop">5 continents</span>
-        </p>
-      </div>
-      <div class="logo-strip logo-strip--in-hero" aria-hidden="false">
+      <div class="hero__bottom">
+        <div class="hero__trust">
+          <p class="trust-meta">
+            Trusted by <span class="trust-meta__pop">100+ brands</span> across <span class="trust-meta__pop">5 continents</span>
+          </p>
+        </div>
+        <div class="logo-strip logo-strip--in-hero" aria-hidden="false">
         <div class="logo-strip__edge-l"></div>
         <div class="logo-strip__track">
-          <!-- First copy · 19 logos · alternating wide wordmarks / square marks for rhythm.
-               Pending transparent-PNG drops: Betty Bramble · SOSALA · elizabeth stiles.
-               Dropped (unverifiable content): Main_Logo.avif · 2023_Logo_update_30.4.23.webp -->
+          <!-- First copy · 19 logos · case studies spread to positions 1 + 10
+               so the orange pills feel evenly distributed in the strip.
+               Pending transparent-PNG drops: Betty Bramble · SOSALA. -->
           <a class="logo-cell" href="/work/chrono-hub" aria-label="Chrono Hub case study">
             <img src="/assets/logos/clients/chrono-hub.svg" alt="Chrono Hub" />
+            <span class="logo-cell__case-pill">Case Study</span>
             <span class="logo-cell__badge">Read case study →</span>
           </a>
           <div class="logo-cell"><img src="/assets/logos/clients/image-3.png" alt="CJ Coaching" /></div>
-          <a class="logo-cell" href="/work/nomadic" aria-label="Nomadic case study">
-            <img src="/assets/logos/clients/nomadic.png" alt="Nomadic" />
-            <span class="logo-cell__badge">Read case study →</span>
-          </a>
           <div class="logo-cell"><img src="/assets/logos/clients/vintique_3d-web.png" alt="Vintique" /></div>
           <div class="logo-cell"><img src="/assets/logos/clients/Goal-Crusher-1024x256.png" alt="Goal Crusher" /></div>
           <div class="logo-cell"><img src="/assets/logos/clients/Emolyne_Wordmark_Black.webp" alt="Emolyne Cosmetics" /></div>
           <div class="logo-cell"><img src="/assets/logos/clients/Osmology_Logo_BLACK.avif" alt="Osmology" /></div>
           <div class="logo-cell"><img src="/assets/logos/clients/zenon_logo_w-BJg8-eWF-copy.png" alt="Zenon" /></div>
           <div class="logo-cell"><img src="/assets/logos/clients/sophie-robinson.png" alt="Sophie Robinson" /></div>
-          <div class="logo-cell"><img src="/assets/logos/clients/image-8.png" alt="Prestige &amp; Village" /></div>
+          <div class="logo-cell"><img src="/assets/logos/clients/image-8.png" alt="Prestige &amp; Village" style="max-height: 78px; max-width: 78px;" /></div>
+          <a class="logo-cell" href="/work/nomadic" aria-label="Nomadic case study">
+            <img src="/assets/logos/clients/nomadic.png" alt="Nomadic" />
+            <span class="logo-cell__case-pill">Case Study</span>
+            <span class="logo-cell__badge">Read case study →</span>
+          </a>
           <div class="logo-cell"><img src="/assets/logos/clients/suzan-galluzzo-logo.png" alt="Suzan Galluzzo" /></div>
           <div class="logo-cell"><img src="/assets/logos/clients/WhatsApp_Image_2023-.png" alt="Sanatorium Tattoo" /></div>
-          <div class="logo-cell"><img src="/assets/logos/clients/Group+4890 (1).webp" alt="elizabeth stiles" /></div>
+          <div class="logo-cell"><img src="/assets/logos/clients/Group+4890 (1).webp" alt="elizabeth stiles" style="max-height: 44px; max-width: 110px;" /></div>
           <div class="logo-cell"><img src="/assets/logos/clients/flawless-lashes-by-loreta-4.png" alt="Flawless Lashes by Loreta" /></div>
           <div class="logo-cell"><img src="/assets/logos/clients/88203637_214145426397705_1621787785637658624_n-copy.png" alt="Client mark" /></div>
-          <div class="logo-cell"><img src="/assets/logos/clients/ian-birchall-fitness-logo-new.png" alt="Ian Birchall Fitness" /></div>
-          <div class="logo-cell"><img src="/assets/logos/clients/539841219_17894779803298117_3119207926612827773_n-1-copy.png" alt="Noble Life" /></div>
+          <div class="logo-cell"><img src="/assets/logos/clients/ian-birchall-fitness-logo-new.png" alt="Ian Birchall Fitness" style="max-height: 44px; max-width: 100px;" /></div>
+          <div class="logo-cell"><img src="/assets/logos/clients/539841219_17894779803298117_3119207926612827773_n-1-copy.png" alt="Noble Life" style="max-height: 78px; max-width: 78px;" /></div>
           <div class="logo-cell"><img src="/assets/logos/clients/DizzleSky_Logo_Black.png" alt="DizzleSky" /></div>
           <div class="logo-cell"><img src="/assets/logos/clients/trii-logo-copy.png" alt="Trii" /></div>
-          <div class="logo-cell"><img src="/assets/logos/clients/logo.png" alt="eauYES" /></div>
+          <div class="logo-cell"><img src="/assets/logos/clients/logo.png" alt="eauYES" style="max-height: 38px; max-width: 80px;" /></div>
 
-          <!-- Duplicate (seamless loop) -->
+          <!-- Duplicate (seamless loop) — matches first copy order + sizing -->
           <a class="logo-cell" href="/work/chrono-hub" aria-hidden="true" tabindex="-1">
             <img src="/assets/logos/clients/chrono-hub.svg" alt="" />
+            <span class="logo-cell__case-pill">Case Study</span>
             <span class="logo-cell__badge">Read case study →</span>
           </a>
           <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/image-3.png" alt="" /></div>
-          <a class="logo-cell" href="/work/nomadic" aria-hidden="true" tabindex="-1">
-            <img src="/assets/logos/clients/nomadic.png" alt="" />
-            <span class="logo-cell__badge">Read case study →</span>
-          </a>
           <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/vintique_3d-web.png" alt="" /></div>
           <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/Goal-Crusher-1024x256.png" alt="" /></div>
           <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/Emolyne_Wordmark_Black.webp" alt="" /></div>
           <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/Osmology_Logo_BLACK.avif" alt="" /></div>
           <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/zenon_logo_w-BJg8-eWF-copy.png" alt="" /></div>
           <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/sophie-robinson.png" alt="" /></div>
-          <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/image-8.png" alt="" /></div>
+          <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/image-8.png" alt="" style="max-height: 78px; max-width: 78px;" /></div>
+          <a class="logo-cell" href="/work/nomadic" aria-hidden="true" tabindex="-1">
+            <img src="/assets/logos/clients/nomadic.png" alt="" />
+            <span class="logo-cell__case-pill">Case Study</span>
+            <span class="logo-cell__badge">Read case study →</span>
+          </a>
           <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/suzan-galluzzo-logo.png" alt="" /></div>
           <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/WhatsApp_Image_2023-.png" alt="" /></div>
-          <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/Group+4890 (1).webp" alt="" /></div>
+          <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/Group+4890 (1).webp" alt="" style="max-height: 44px; max-width: 110px;" /></div>
           <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/flawless-lashes-by-loreta-4.png" alt="" /></div>
           <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/88203637_214145426397705_1621787785637658624_n-copy.png" alt="" /></div>
-          <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/ian-birchall-fitness-logo-new.png" alt="" /></div>
-          <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/539841219_17894779803298117_3119207926612827773_n-1-copy.png" alt="" /></div>
+          <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/ian-birchall-fitness-logo-new.png" alt="" style="max-height: 44px; max-width: 100px;" /></div>
+          <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/539841219_17894779803298117_3119207926612827773_n-1-copy.png" alt="" style="max-height: 78px; max-width: 78px;" /></div>
           <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/DizzleSky_Logo_Black.png" alt="" /></div>
           <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/trii-logo-copy.png" alt="" /></div>
-          <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/logo.png" alt="" /></div>
+          <div class="logo-cell" aria-hidden="true"><img src="/assets/logos/clients/logo.png" alt="" style="max-height: 38px; max-width: 80px;" /></div>
         </div>
         <div class="logo-strip__edge-r"></div>
-      </div>
+        </div>
+      </div><!-- /.hero__bottom -->
     </section><!-- /.hero -->
 
     <!-- ============================================

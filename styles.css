@@ -601,9 +601,10 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   min-height: max(720px, 100vh);
-  padding-top: clamp(140px, 16vw, 196px);
-  padding-bottom: clamp(48px, 5vw, 72px);
+  padding-top: clamp(120px, 14vw, 168px);
+  padding-bottom: clamp(180px, 20vw, 224px);
   background: var(--ac-black);
 }
 
@@ -717,14 +718,26 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 .hero__inner {
   position: relative;
   z-index: 1;
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   text-align: center;
   gap: 24px;
 }
+
+/* Hero bottom block (trust meta + logo strip) — absolutely pinned to
+   the bottom of the hero so the main inner content can sit truly between
+   header and strip via the parent flex's justify-content: center. */
+.hero__bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  padding-bottom: 40px;
+  pointer-events: none;
+}
+.hero__bottom > * { pointer-events: auto; }
 
 /* Hero-specific type sizing — smaller than the design-system display
    so the hero feels balanced with the trust strip below it. */
@@ -904,6 +917,30 @@ a.logo-cell:hover img {
   filter: brightness(0) invert(1) blur(2px);
   opacity: 0.5;
 }
+
+/* Always-visible "Case Study" pill that sits under marked logos.
+   Signals the case-study CTA without requiring a hover (ColdIQ pattern).
+   Fades out when the full-cell hover overlay takes over. */
+.logo-cell__case-pill {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ac-orange);
+  border: 1px solid rgba(232, 93, 4, 0.45);
+  background: rgba(0, 0, 0, 0.55);
+  padding: 3px 9px 4px;
+  border-radius: var(--r-pill);
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity var(--d-2) var(--ease-out);
+}
+a.logo-cell:hover .logo-cell__case-pill { opacity: 0; }
 .logo-strip__edge-l,
 .logo-strip__edge-r {
   position: absolute;
