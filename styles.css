@@ -587,7 +587,8 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding-block: clamp(96px, 14vw, 160px);
+  padding-top: clamp(64px, 9vw, 112px);
+  padding-bottom: clamp(24px, 3vw, 40px);
   background: var(--ac-black);
 }
 
@@ -705,7 +706,8 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 28px;
+  gap: 24px;
+  margin-bottom: clamp(40px, 5vw, 64px);
 }
 
 .hero__headline { max-width: 18ch; }
@@ -716,6 +718,44 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   gap: 16px;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+/* Trust strip block when nested inside hero (Genesy pattern) */
+.hero__trust {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding-block: 0 16px;
+}
+.hero__trust .trust-meta {
+  margin-bottom: 0;
+}
+
+/* Logo strip variant inside hero — slightly tighter cells, kill edge
+   fades (the hero vignette already darkens edges). */
+.logo-strip--in-hero {
+  position: relative;
+  z-index: 1;
+}
+.logo-strip--in-hero .logo-cell {
+  width: 180px;
+  height: 96px;
+}
+.logo-strip--in-hero .logo-cell img {
+  max-height: 56px;
+  max-width: 140px;
+}
+.logo-strip--in-hero .logo-strip__edge-l,
+.logo-strip--in-hero .logo-strip__edge-r {
+  background: linear-gradient(to right, transparent 0%, transparent 100%);
+  width: 80px;
+  /* Subtle fade-to-transparent so edges don't feel hard-cut */
+}
+.logo-strip--in-hero .logo-strip__edge-l {
+  background: linear-gradient(to right, rgba(10, 10, 10, 0.6) 0%, transparent 100%);
+}
+.logo-strip--in-hero .logo-strip__edge-r {
+  background: linear-gradient(to left, rgba(10, 10, 10, 0.6) 0%, transparent 100%);
 }
 
 /* =========================================================

@@ -20,7 +20,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="preconnect" href="https://app.iclosed.io" crossorigin />
-  <link rel="stylesheet" href="/styles.css?v=7" />
+  <link rel="stylesheet" href="/styles.css?v=8" />
 </head>
 <body>
 
@@ -64,18 +64,17 @@
           <a class="btn btn--secondary btn--lg" href="/work">See the work</a>
         </div>
       </div>
-    </section>
 
-    <!-- ============================================
-         02 · Trust strip — scrolling logo marquee
-         ============================================ -->
-    <section class="section section--tight" aria-label="Trusted by">
-      <div class="container">
+      <!-- ============================================
+           02 · Trust strip — inside the hero (Genesy pattern).
+           Sits below the CTAs, full-bleed marquee. Stays above the fold.
+           ============================================ -->
+      <div class="hero__trust">
         <p class="trust-meta">
           Trusted by <span class="trust-meta__pop">100+ brands</span> across <span class="trust-meta__pop">5 continents</span>
         </p>
       </div>
-      <div class="logo-strip" aria-hidden="false">
+      <div class="logo-strip logo-strip--in-hero" aria-hidden="false">
         <div class="logo-strip__edge-l"></div>
         <div class="logo-strip__track">
           <!-- First copy · 19 logos · alternating wide wordmarks / square marks for rhythm.
@@ -135,7 +134,7 @@
         </div>
         <div class="logo-strip__edge-r"></div>
       </div>
-    </section>
+    </section><!-- /.hero -->
 
     <!-- ============================================
          03 · Problem / opportunity — lead with opportunity, set up the Funnel
