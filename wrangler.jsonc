@@ -1,0 +1,22 @@
+{
+  // Cloudflare Worker for acquiro.media.
+  //
+  // - Worker entry (`main`) runs first — reserved for /api/* routes (Meta CAPI,
+  //   iClosed webhook, etc.). Added in Phase 1.5.
+  // - Everything else falls through to static assets (HTML / CSS / JS / images).
+  // - `.assetsignore` keeps `src/` and config files out of the public bundle.
+  // - Auto-deploys on `git push` via Cloudflare's Git integration.
+  // - Secrets (`META_CAPI_TOKEN`, etc.) are set with `wrangler secret put` —
+  //   never committed.
+  "name": "acquiro",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-05-07",
+  "assets": {
+    "directory": "./",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

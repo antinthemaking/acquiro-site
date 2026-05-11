@@ -1,0 +1,1272 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0A0A0A" />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <title>Acquiro · Design System</title>
+  <meta name="description" content="Acquiro Media design system canvas — every component in one preview." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="/styles.css?v=11" />
+
+  <style>
+    /* ---------- Spec-page-only styles ---------- */
+
+    .spec { background: var(--ac-black); }
+
+    .spec-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px var(--container-px);
+      border-bottom: 1px solid var(--ac-hairline);
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .spec-meta__title {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ac-mute);
+    }
+    .spec-meta__brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ac-ink);
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .spec-meta__brand img { height: 14px; }
+
+    .spec-section {
+      padding: 96px 0;
+      border-top: 1px solid var(--ac-hairline);
+    }
+    .spec-section:first-of-type { border-top: 0; }
+
+    .spec-header { margin-bottom: 48px; max-width: 720px; }
+    .spec-header__num {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--ac-orange);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .spec-header__num::before {
+      content: '';
+      display: inline-block;
+      width: 32px;
+      height: 1px;
+      background: var(--ac-orange);
+    }
+    .spec-header__title {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 36px;
+      line-height: 1.1;
+      letter-spacing: -1.2px;
+      color: var(--ac-ink);
+      margin-bottom: 16px;
+    }
+    .spec-header__sub {
+      font-size: 15px;
+      color: var(--ac-mute);
+      line-height: 1.55;
+      max-width: 60ch;
+    }
+
+    /* Rules box at the end of a section */
+    .spec-rules {
+      margin-top: 32px;
+      padding: 20px 24px;
+      border: 1px solid var(--ac-hairline);
+      border-radius: var(--r-md);
+      background: var(--ac-surface);
+    }
+    .spec-rules__label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ac-mute);
+      margin-bottom: 8px;
+    }
+    .spec-rules__body {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--ac-ink);
+      opacity: 0.85;
+    }
+
+    /* ---------- Hero (top of page) ---------- */
+    .ds-hero { min-height: 70vh; display: flex; align-items: center; }
+    .ds-hero .hero__inner { padding: 0 var(--container-px); }
+
+    /* ---------- 01 · Colour ---------- */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    @media (max-width: 960px) { .swatch-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .swatch-grid { grid-template-columns: 1fr; } }
+    .swatch {
+      background: var(--ac-surface);
+      border: 1px solid var(--ac-hairline);
+      border-radius: var(--r-md);
+      overflow: hidden;
+    }
+    .swatch__chip {
+      height: 120px;
+      border-bottom: 1px solid var(--ac-hairline);
+    }
+    .swatch__body { padding: 16px; }
+    .swatch__name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ac-ink);
+      margin-bottom: 4px;
+    }
+    .swatch__hex {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ac-mute);
+      margin-bottom: 10px;
+    }
+    .swatch__role {
+      font-size: 12px;
+      color: var(--ac-mute);
+      line-height: 1.5;
+    }
+
+    /* ---------- 02 · Typography ---------- */
+    .type-row {
+      display: grid;
+      grid-template-columns: 160px 1fr 200px;
+      gap: 24px;
+      align-items: baseline;
+      padding: 28px 0;
+      border-top: 1px solid var(--ac-hairline);
+    }
+    .type-row:first-of-type { border-top: 0; padding-top: 0; }
+    .type-row__label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ac-orange);
+      font-weight: 500;
+    }
+    .type-row__sub {
+      font-size: 12px;
+      color: var(--ac-mute);
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+    .type-row__sample {
+      color: var(--ac-ink);
+      overflow: hidden;
+    }
+    .type-row__meta {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.04em;
+      color: var(--ac-mute);
+      text-align: right;
+      line-height: 1.6;
+    }
+    @media (max-width: 760px) {
+      .type-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .type-row__meta { text-align: left; }
+    }
+
+    /* ---------- 03 · Buttons ---------- */
+    .btn-row {
+      display: grid;
+      grid-template-columns: 160px repeat(3, 1fr);
+      gap: 24px;
+      align-items: center;
+      padding: 32px 0;
+      border-top: 1px solid var(--ac-hairline);
+    }
+    .btn-row:first-of-type { border-top: 0; padding-top: 0; }
+    .btn-row__label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ac-orange);
+      font-weight: 500;
+    }
+    .btn-row__state {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ac-mute);
+      margin-bottom: 12px;
+    }
+    @media (max-width: 760px) {
+      .btn-row { grid-template-columns: 1fr; gap: 16px; }
+    }
+
+    /* ---------- 04 · Cards ---------- */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 800px) { .cards-grid { grid-template-columns: 1fr; } }
+
+    .stat-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--ac-hairline);
+      border-radius: var(--r-md);
+      overflow: hidden;
+    }
+    .stat-cell { padding: 36px; border-right: 1px solid var(--ac-hairline); }
+    .stat-cell:last-child { border-right: 0; }
+    .stat-cell__num {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: 56px;
+      line-height: 1;
+      letter-spacing: -2px;
+      color: var(--ac-ink);
+      margin-bottom: 8px;
+    }
+    .stat-cell__label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ac-mute);
+    }
+    @media (max-width: 800px) {
+      .stat-strip { grid-template-columns: 1fr 1fr; }
+      .stat-cell { border-right: 0; border-bottom: 1px solid var(--ac-hairline); }
+      .stat-cell:nth-child(2n) { border-right: 0; }
+      .stat-cell:nth-child(odd) { border-right: 1px solid var(--ac-hairline); }
+    }
+
+    /* Case study card */
+    .cs-card {
+      padding: 0;
+      overflow: hidden;
+      display: block;
+      color: inherit;
+      cursor: pointer;
+      transition: border-color var(--d-2) var(--ease-out), transform var(--d-2) var(--ease-out);
+    }
+    .cs-card:hover {
+      transform: translateY(-2px);
+      border-color: var(--ac-hairline-3);
+    }
+    .cs-card__media {
+      height: 220px;
+      background:
+        repeating-linear-gradient(135deg,
+          rgba(232, 93, 4, 0.06) 0 8px,
+          rgba(232, 93, 4, 0.12) 8px 16px),
+        var(--ac-black);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 24px;
+      border-bottom: 1px solid var(--ac-hairline);
+      position: relative;
+    }
+    .cs-card__tag { position: absolute; top: 16px; left: 16px; }
+    .cs-card__meta {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ac-mute);
+    }
+    .cs-card__body { padding: 28px; }
+    .cs-card__stat { font-size: 56px; line-height: 1; letter-spacing: -2px; font-weight: 600; color: var(--ac-ink); margin-bottom: 4px; }
+    .cs-card__sub  { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ac-mute); margin-bottom: 16px; }
+    .cs-card__head { font-size: 18px; font-weight: 700; line-height: 1.35; margin-bottom: 24px; color: var(--ac-ink); }
+
+    /* Pathway card */
+    .pw-card {
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .pw-card__top { padding: 28px 28px 0; }
+    .pw-card__num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ac-orange);
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .pw-card__title {
+      font-size: 32px;
+      font-weight: 600;
+      letter-spacing: -1.2px;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .pw-card__desc {
+      font-size: 15px;
+      color: var(--ac-mute);
+      line-height: 1.5;
+      margin-bottom: 28px;
+    }
+    .pw-card__list { padding: 28px; flex: 1; }
+    .pw-card__list-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ac-mute);
+      margin-bottom: 14px;
+    }
+    .pw-card__item {
+      display: flex;
+      gap: 12px;
+      padding: 8px 0;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .pw-card__plus { color: var(--ac-orange); font-weight: 700; margin-top: 1px; }
+    .pw-card__cta { padding: 24px; }
+
+    /* Testimonial */
+    .test-card__quote {
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 1.35;
+      letter-spacing: -0.4px;
+      margin-bottom: 32px;
+      color: var(--ac-ink);
+    }
+    .test-card__attribution { display: flex; align-items: center; gap: 16px; }
+    .test-card__photo {
+      width: 48px;
+      height: 48px;
+      background: var(--ac-surface-2);
+      border: 1px solid var(--ac-hairline);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ac-mute);
+      font-size: 11px;
+      font-family: var(--font-mono);
+    }
+    .test-card__name { font-size: 14px; font-weight: 700; color: var(--ac-ink); }
+    .test-card__role { font-size: 12px; color: var(--ac-mute); }
+
+    /* Pillar */
+    .pillar-card { height: 100%; }
+    .pillar-card__num {
+      font-size: 36px;
+      font-weight: 600;
+      letter-spacing: -1.4px;
+      color: var(--ac-ink);
+      margin-bottom: 24px;
+      line-height: 1;
+    }
+    .pillar-card__title {
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: -0.6px;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+    .pillar-card__body { font-size: 14px; line-height: 1.55; color: var(--ac-mute); }
+
+    /* ---------- 05 · Navigation demos ---------- */
+    .nav-demo {
+      border: 1px solid var(--ac-hairline);
+      border-radius: var(--r-md);
+      overflow: hidden;
+      margin-bottom: 24px;
+      background: var(--ac-black);
+    }
+    .nav-demo__label {
+      padding: 12px 20px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ac-mute);
+      border-bottom: 1px solid var(--ac-hairline);
+      background: var(--ac-surface);
+    }
+    .nav-demo__frame {
+      padding: 24px;
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+    .nav-demo__frame--hero {
+      background: linear-gradient(135deg, var(--ac-black) 0%, #1a0a04 100%);
+    }
+    .nav-demo__frame--scrolled {
+      background: rgba(10, 10, 10, 0.85);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+    }
+    .nav-demo__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .nav-demo__inner img { height: 16px; }
+    .nav-demo__links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .nav-demo--mobile { max-width: 360px; }
+    .nav-demo--mobile .nav-demo__frame { padding: 16px; min-height: 56px; }
+    .nav-demo--mobile .nav-demo__inner img { height: 13px; }
+    .hamburger {
+      width: 24px;
+      height: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .hamburger span { display: block; height: 1.5px; background: var(--ac-ink); }
+
+    /* ---------- 07 · Motion ---------- */
+    .motion-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 760px) { .motion-grid { grid-template-columns: 1fr; } }
+
+    .motion-demo {
+      padding: 28px;
+      border: 1px solid var(--ac-hairline);
+      border-radius: var(--r-md);
+      background: var(--ac-surface);
+    }
+    .motion-demo__label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ac-orange);
+      margin-bottom: 8px;
+    }
+    .motion-demo__title {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.4px;
+      margin-bottom: 8px;
+    }
+    .motion-demo__body {
+      font-size: 13px;
+      color: var(--ac-mute);
+      line-height: 1.55;
+      margin-bottom: 24px;
+    }
+    .motion-demo__stage {
+      min-height: 96px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 20px;
+      background: var(--ac-black);
+      border: 1px solid var(--ac-hairline);
+      border-radius: var(--r-sm);
+      flex-wrap: wrap;
+    }
+    /* Demo: lift card on hover */
+    .lift-card {
+      padding: 20px 24px;
+      background: var(--ac-surface-2);
+      border: 1px solid var(--ac-hairline);
+      border-radius: var(--r-md);
+      transition: transform var(--d-2) var(--ease-out), border-color var(--d-2) var(--ease-out);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .lift-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--ac-orange);
+    }
+    /* Demo: nav link hover already in .nav-link */
+
+    /* Motion principles */
+    .principles {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 32px;
+    }
+    @media (max-width: 760px) { .principles { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 480px) { .principles { grid-template-columns: 1fr; } }
+    .principle {
+      border-top: 1px solid var(--ac-orange);
+      padding-top: 16px;
+    }
+    .principle__head { font-size: 18px; font-weight: 600; letter-spacing: -0.4px; margin-bottom: 8px; }
+    .principle__body { font-size: 12px; color: var(--ac-mute); line-height: 1.5; }
+
+    /* TOC strip */
+    .ds-toc {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(10, 10, 10, 0.85);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--ac-hairline);
+    }
+    .ds-toc__inner {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 12px var(--container-px);
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: none;
+    }
+    .ds-toc__inner::-webkit-scrollbar { display: none; }
+    .ds-toc__brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding-right: 16px;
+      border-right: 1px solid var(--ac-hairline);
+      flex: 0 0 auto;
+    }
+    .ds-toc__brand img { height: 14px; }
+    .ds-toc__brand-label {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ac-mute);
+    }
+    .ds-toc__link {
+      font-size: 12px;
+      color: var(--ac-mute);
+      text-decoration: none;
+      transition: color var(--d-1) var(--ease-out);
+      flex: 0 0 auto;
+    }
+    .ds-toc__link:hover { color: var(--ac-orange); }
+  </style>
+</head>
+<body class="spec">
+
+  <!-- ============================================
+       Sticky TOC
+       ============================================ -->
+  <nav class="ds-toc" aria-label="Design system table of contents">
+    <div class="ds-toc__inner">
+      <a class="ds-toc__brand" href="#top">
+        <img src="/assets/logos/acquiro-white.png" alt="Acquiro" />
+        <span class="ds-toc__brand-label">Design System · v1</span>
+      </a>
+      <a class="ds-toc__link" href="#colour">01 Colour</a>
+      <a class="ds-toc__link" href="#typography">02 Typography</a>
+      <a class="ds-toc__link" href="#buttons">03 Buttons</a>
+      <a class="ds-toc__link" href="#cards">04 Cards</a>
+      <a class="ds-toc__link" href="#nav">05 Navigation</a>
+      <a class="ds-toc__link" href="#footer">06 Footer</a>
+      <a class="ds-toc__link" href="#motion">07 Motion</a>
+    </div>
+  </nav>
+
+  <main id="top">
+
+    <!-- ============================================
+         Hero · Horizon — smooth warm glow rising from below.
+         Single composed gradient, soft fade up into dark canvas.
+         Subtle pulse animation. Edge vignette pulls corners to black.
+         ============================================ -->
+    <section class="hero ds-hero" aria-label="Brand essence">
+      <div class="hero__bg" aria-hidden="true">
+        <div class="hero__horizon"></div>
+      </div>
+
+      <div class="hero__inner container">
+        <span class="badge-dot">Performance Media · Built for Scale</span>
+
+        <h1 class="t-hero hero__headline">
+          We build <span class="accent">acquisition systems.</span>
+        </h1>
+
+        <p class="t-sub hero__sub">
+          Architecture first, then paid media on top. Built for businesses ready to scale, not to test.
+        </p>
+
+        <div class="hero__ctas">
+          <a class="btn btn--primary btn--lg" href="#colour">Book a Call →</a>
+          <a class="btn btn--secondary btn--lg" href="#cards">See the work</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         Spec metadata strip
+         ============================================ -->
+    <div class="spec-meta">
+      <a class="spec-meta__brand" href="#top">
+        <img src="/assets/logos/acquiro-white.png" alt="Acquiro" />
+        <span>Design System</span>
+      </a>
+      <span class="spec-meta__title">v1 · May 2026 · Internal preview</span>
+    </div>
+
+    <div class="container">
+
+      <!-- ============================================
+           01 · Colour
+           ============================================ -->
+      <section class="spec-section" id="colour">
+        <header class="spec-header">
+          <div class="spec-header__num">01 · Colour</div>
+          <h2 class="spec-header__title">Black canvas. Orange accent.</h2>
+          <p class="spec-header__sub">
+            Black-and-orange brand. Orange is accent only — never decorative, never dominant. Every other tone is an extension of the dark canvas. Cap orange usage at roughly 7% of any composition.
+          </p>
+        </header>
+
+        <div class="swatch-grid">
+          <div class="swatch">
+            <div class="swatch__chip" style="background:#E85D04"></div>
+            <div class="swatch__body">
+              <div class="swatch__name">Primary Orange</div>
+              <div class="swatch__hex">#E85D04 · --ac-orange</div>
+              <div class="swatch__role">Accent only. CTAs, accent words in headlines, eyebrow rules, key data points. Never decorative.</div>
+            </div>
+          </div>
+
+          <div class="swatch">
+            <div class="swatch__chip" style="background:#0A0A0A; border-bottom-color: var(--ac-hairline-3)"></div>
+            <div class="swatch__body">
+              <div class="swatch__name">Background Dark</div>
+              <div class="swatch__hex">#0A0A0A · --ac-black</div>
+              <div class="swatch__role">Primary canvas. Every page background. Every section unless explicitly broken to light.</div>
+            </div>
+          </div>
+
+          <div class="swatch">
+            <div class="swatch__chip" style="background:#111111"></div>
+            <div class="swatch__body">
+              <div class="swatch__name">Surface</div>
+              <div class="swatch__hex">#111111 · --ac-surface</div>
+              <div class="swatch__role">Raised surface. Cards, nav bar background on scroll, rules boxes.</div>
+            </div>
+          </div>
+
+          <div class="swatch">
+            <div class="swatch__chip" style="background:#161616"></div>
+            <div class="swatch__body">
+              <div class="swatch__name">Surface 2</div>
+              <div class="swatch__hex">#161616 · --ac-surface-2</div>
+              <div class="swatch__role">One step higher than surface. Inset elements, photo backings.</div>
+            </div>
+          </div>
+
+          <div class="swatch">
+            <div class="swatch__chip" style="background:#FAFAFA"></div>
+            <div class="swatch__body">
+              <div class="swatch__name">Ink</div>
+              <div class="swatch__hex">#FAFAFA · --ac-ink</div>
+              <div class="swatch__role">Primary text on dark canvas. Headlines, body, stat callouts.</div>
+            </div>
+          </div>
+
+          <div class="swatch">
+            <div class="swatch__chip" style="background:#9A9A9A"></div>
+            <div class="swatch__body">
+              <div class="swatch__name">Mute</div>
+              <div class="swatch__hex">#9A9A9A · --ac-mute</div>
+              <div class="swatch__role">Secondary text on dark. Captions, metadata, supporting copy.</div>
+            </div>
+          </div>
+
+          <div class="swatch">
+            <div class="swatch__chip" style="background:#333333"></div>
+            <div class="swatch__body">
+              <div class="swatch__name">Body (light)</div>
+              <div class="swatch__hex">#333333 · --ac-body</div>
+              <div class="swatch__role">Body text on the rare light surface. Used only when a section breaks to light fill.</div>
+            </div>
+          </div>
+
+          <div class="swatch">
+            <div class="swatch__chip" style="background:#F5F5F5"></div>
+            <div class="swatch__body">
+              <div class="swatch__name">Light Fill</div>
+              <div class="swatch__hex">#F5F5F5 · --ac-light</div>
+              <div class="swatch__role">Light section breaks. Use sparingly — the brand lives on dark.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="spec-rules">
+          <div class="spec-rules__label">Rules</div>
+          <div class="spec-rules__body">
+            Orange max ~7% of any composition. Reserve for: primary CTA fill on hover, hero accent word, eyebrow rules, stat callouts when emphasised, single-letter index marks. Never as section background. Never as gradient surface. Never as decorative shape. Stat numbers themselves stay cream — never orange.
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================
+           02 · Typography
+           ============================================ -->
+      <section class="spec-section" id="typography">
+        <header class="spec-header">
+          <div class="spec-header__num">02 · Typography</div>
+          <h2 class="spec-header__title">Inter throughout. Hierarchy by weight × scale.</h2>
+          <p class="spec-header__sub">
+            Inter is the type system. No serifs, no alternates. Hierarchy comes from weight and scale, not family swaps. JetBrains Mono is reserved for eyebrows, tags, and metadata — never body copy.
+          </p>
+        </header>
+
+        <div class="type-row">
+          <div>
+            <div class="type-row__label">HERO</div>
+            <div class="type-row__sub">Page-defining headline. Used once per page.</div>
+          </div>
+          <div class="type-row__sample" style="font-size:84px; font-weight:600; line-height:1.02; letter-spacing:-3.2px;">We build acquisition systems.</div>
+          <div class="type-row__meta">84px · 600<br/>lh 1.02 · ls -3.2</div>
+        </div>
+
+        <div class="type-row">
+          <div>
+            <div class="type-row__label">DISPLAY</div>
+            <div class="type-row__sub">Section headline.</div>
+          </div>
+          <div class="type-row__sample" style="font-size:56px; font-weight:600; line-height:1.06; letter-spacing:-2px;">The Infinite Funnel</div>
+          <div class="type-row__meta">56px · 600<br/>lh 1.06 · ls -2.0</div>
+        </div>
+
+        <div class="type-row">
+          <div>
+            <div class="type-row__label">TITLE</div>
+            <div class="type-row__sub">Subsection title. Card titles.</div>
+          </div>
+          <div class="type-row__sample" style="font-size:28px; font-weight:600; line-height:1.20; letter-spacing:-0.7px;">Foundation · Growth · Accelerator</div>
+          <div class="type-row__meta">28px · 600<br/>lh 1.20 · ls -0.7</div>
+        </div>
+
+        <div class="type-row">
+          <div>
+            <div class="type-row__label">SUB</div>
+            <div class="type-row__sub">Hero subhead. Section lead-in.</div>
+          </div>
+          <div class="type-row__sample" style="font-size:18px; font-weight:400; line-height:1.50; letter-spacing:-0.1px;">Architecture first. Then paid media on top.</div>
+          <div class="type-row__meta">18px · 400<br/>lh 1.50 · ls -0.1</div>
+        </div>
+
+        <div class="type-row">
+          <div>
+            <div class="type-row__label">BODY</div>
+            <div class="type-row__sub">Paragraphs, long-form copy.</div>
+          </div>
+          <div class="type-row__sample" style="font-size:16px; font-weight:400; line-height:1.55;">Most agencies run ads on top of broken systems. Acquiro builds the architecture, then layers paid media.</div>
+          <div class="type-row__meta">16px · 400<br/>lh 1.55 · ls 0</div>
+        </div>
+
+        <div class="type-row">
+          <div>
+            <div class="type-row__label">SMALL</div>
+            <div class="type-row__sub">Captions, badges, footer meta.</div>
+          </div>
+          <div class="type-row__sample" style="font-size:13px; font-weight:500; line-height:1.5; letter-spacing:0.04em;">CHRONO HUB · LUXURY WATCHES · DUBAI</div>
+          <div class="type-row__meta">13px · 500<br/>lh 1.5 · ls 0.04em</div>
+        </div>
+
+        <div class="type-row">
+          <div>
+            <div class="type-row__label">STAT</div>
+            <div class="type-row__sub">Oversized number. Cream/white — never orange.</div>
+          </div>
+          <div class="type-row__sample" style="font-size:88px; font-weight:600; line-height:1; letter-spacing:-3.4px;">10×</div>
+          <div class="type-row__meta">88px · 600<br/>lh 1 · ls -3.4</div>
+        </div>
+
+        <div class="type-row">
+          <div>
+            <div class="type-row__label">MONO</div>
+            <div class="type-row__sub">JetBrains Mono. Eyebrows, tags, metadata only.</div>
+          </div>
+          <div class="type-row__sample t-mono" style="font-size:11px;">DESIGN SYSTEM · v1 · MAY 2026</div>
+          <div class="type-row__meta">11px · 500<br/>ls 0.12em</div>
+        </div>
+
+        <div class="spec-rules">
+          <div class="spec-rules__label">Rules</div>
+          <div class="spec-rules__body">
+            Headlines and stat callouts run weight 600 — never 700+. Body copy stays at 400; small text bumps to 500 for legibility. Letter-spacing tightens with size: hero -3.2px, display -2.0px, title -0.7px, body 0. Mono stretches the other way at 0.12em. Never mix Inter and Arial, never use mono for body, never use orange on stat numbers.
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================
+           03 · Buttons
+           ============================================ -->
+      <section class="spec-section" id="buttons">
+        <header class="spec-header">
+          <div class="spec-header__num">03 · Buttons</div>
+          <h2 class="spec-header__title">Three button types. Sentence-case. Pill shape.</h2>
+          <p class="spec-header__sub">
+            See-through pill primary on dark canvas. Hover fills white, text inverts to black. One primary per viewport — always "Book a Call" in the funnel path. Secondary supports navigation. Tertiary lives inside cards and inline copy.
+          </p>
+        </header>
+
+        <div class="btn-row">
+          <div class="btn-row__label">Primary</div>
+          <div>
+            <div class="btn-row__state">Default</div>
+            <button class="btn btn--primary">Book a Call →</button>
+          </div>
+          <div>
+            <div class="btn-row__state">Hover</div>
+            <button class="btn btn--primary" style="background: #E85D04; color: #FFFFFF; border-color: #E85D04; transform: translateY(-1px); box-shadow: 0 12px 32px -8px rgba(232,93,4,0.7), inset 0 1px 0 rgba(255,255,255,0.18);">Book a Call →</button>
+          </div>
+          <div>
+            <div class="btn-row__state">Active</div>
+            <button class="btn btn--primary" style="background: #B84803; color: #FFFFFF; border-color: #B84803; box-shadow: 0 6px 16px -4px rgba(184,72,3,0.55), inset 0 1px 0 rgba(255,255,255,0.10);">Book a Call →</button>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <div class="btn-row__label">Secondary</div>
+          <div>
+            <div class="btn-row__state">Default</div>
+            <button class="btn btn--secondary">See the work</button>
+          </div>
+          <div>
+            <div class="btn-row__state">Hover</div>
+            <button class="btn btn--secondary" style="border-color: rgba(255,255,255,0.4);">See the work</button>
+          </div>
+          <div>
+            <div class="btn-row__state">Active</div>
+            <button class="btn btn--secondary" style="background: rgba(255,255,255,0.04);">See the work</button>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <div class="btn-row__label">Tertiary</div>
+          <div>
+            <div class="btn-row__state">Default</div>
+            <a href="#" class="btn btn--tertiary">Read the case study</a>
+          </div>
+          <div>
+            <div class="btn-row__state">Hover</div>
+            <a href="#" class="btn btn--tertiary" style="color: var(--ac-orange);">
+              Read the case study
+              <span style="display:inline-block; width:22px; height:1.5px; background:var(--ac-orange); margin-left:0;"></span>
+            </a>
+          </div>
+          <div>
+            <div class="btn-row__state">Active</div>
+            <a href="#" class="btn btn--tertiary">Read the case study</a>
+          </div>
+        </div>
+
+        <div class="spec-rules">
+          <div class="spec-rules__label">Rules</div>
+          <div class="spec-rules__body">
+            One primary per viewport, always "Book a Call" in the funnel path. Primary carries the brand orange gradient with a soft halo — the CTA is the moment orange does its job. Secondary stays ghost-bordered for navigation to deeper pages. Tertiary lives inside cards and inline copy. The primary's halo lets it stay readable when the liquid background drifts behind it; never strip the glow.
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================
+           04 · Cards
+           ============================================ -->
+      <section class="spec-section" id="cards">
+        <header class="spec-header">
+          <div class="spec-header__num">04 · Cards</div>
+          <h2 class="spec-header__title">Five card types. One job each.</h2>
+          <p class="spec-header__sub">
+            Case study, pathway, stat callout, testimonial, pillar. Each does one job — never combine. Hairline border, 18px radius, soft top-edge gradient, no shadow on dark.
+          </p>
+        </header>
+
+        <!-- 04.1 Case study + Pathway -->
+        <div class="t-mono" style="color: var(--ac-orange); margin-bottom: 12px;">04.1 · CASE STUDY  &middot;  04.2 · PATHWAY</div>
+        <div class="cards-grid" style="margin-bottom: 48px;">
+
+          <a href="#" class="card cs-card">
+            <div class="cs-card__media">
+              <span class="tag tag--filled cs-card__tag">CASE STUDY</span>
+              <div class="cs-card__meta">CHRONO HUB · LUXURY WATCHES · DUBAI</div>
+            </div>
+            <div class="cs-card__body">
+              <div class="cs-card__stat">$10M+</div>
+              <div class="cs-card__sub">PIPELINE · 18 MONTHS · ~10× ROAS</div>
+              <div class="cs-card__head">From zero to a multi-million dollar luxury pipeline in 18 months.</div>
+              <span class="btn btn--tertiary">Read the full story</span>
+            </div>
+          </a>
+
+          <div class="card pw-card">
+            <div class="pw-card__top">
+              <div class="pw-card__num">02 · GROWTH</div>
+              <div class="pw-card__title">Strategic partner</div>
+              <div class="pw-card__desc">For founders and CMOs who want a strategic partner embedded in their growth, not just a media buyer.</div>
+            </div>
+            <div class="line"></div>
+            <div class="pw-card__list">
+              <div class="pw-card__list-label">What's included</div>
+              <div class="pw-card__item"><span class="pw-card__plus">+</span><span>Everything in Foundation</span></div>
+              <div class="pw-card__item"><span class="pw-card__plus">+</span><span>Bi-weekly working sessions, not status calls</span></div>
+              <div class="pw-card__item"><span class="pw-card__plus">+</span><span>Active deployment of Acquiro OS frameworks</span></div>
+              <div class="pw-card__item"><span class="pw-card__plus">+</span><span>Strategic input across all paid and organic channels</span></div>
+            </div>
+            <div class="line"></div>
+            <div class="pw-card__cta">
+              <button class="btn btn--primary btn--block">Book a Call →</button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 04.3 Stat callout -->
+        <div class="t-mono" style="color: var(--ac-orange); margin-bottom: 12px;">04.3 · STAT CALLOUT</div>
+        <div class="stat-strip" style="margin-bottom: 48px;">
+          <div class="stat-cell">
+            <div class="stat-cell__num">$190K</div>
+            <div class="stat-cell__label">Ad spend managed</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-cell__num">$10M+</div>
+            <div class="stat-cell__label">Pipeline generated</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-cell__num">100+</div>
+            <div class="stat-cell__label">Clients served</div>
+          </div>
+          <div class="stat-cell">
+            <div class="stat-cell__num">5</div>
+            <div class="stat-cell__label">Continents</div>
+          </div>
+        </div>
+
+        <!-- 04.4 Testimonial + 04.5 Pillar -->
+        <div class="cards-grid">
+          <div>
+            <div class="t-mono" style="color: var(--ac-orange); margin-bottom: 12px;">04.4 · TESTIMONIAL</div>
+            <div class="card">
+              <p class="test-card__quote">"They didn't run ads on what we had. They built the system first, then the ads compounded across all of it."</p>
+              <div class="test-card__attribution">
+                <div class="test-card__photo">PHOTO</div>
+                <div>
+                  <div class="test-card__name">Ben, Founder</div>
+                  <div class="test-card__role">Chrono Hub · Luxury Watches · Dubai</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="t-mono" style="color: var(--ac-orange); margin-bottom: 12px;">04.5 · PILLAR</div>
+            <div class="card pillar-card">
+              <div class="pillar-card__num">04</div>
+              <div class="pillar-card__title">AI &amp; Backend Systems</div>
+              <p class="pillar-card__body">The infrastructure layer. Pixel and conversion tracking, CRM integration, automation, reporting. The data loops that make every other pillar smarter over time.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="spec-rules">
+          <div class="spec-rules__label">Rules</div>
+          <div class="spec-rules__body">
+            Each card does one job — never combine. Case study cards click through to /work/[slug]. Pathway cards always end with the primary CTA. Stat callouts are dense and tabular — four cells across, one number per cell, never decorated. Testimonials show photo + name + role; quote sets in title weight. Pillar cards always lead with the index number (01-04).
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================
+           05 · Navigation
+           ============================================ -->
+      <section class="spec-section" id="nav">
+        <header class="spec-header">
+          <div class="spec-header__num">05 · Navigation</div>
+          <h2 class="spec-header__title">Sticky. Frosted on scroll.</h2>
+          <p class="spec-header__sub">
+            Logo + four links + primary CTA. Always visible, sticky on scroll. Background goes from transparent (over hero) to frosted dark (after first scroll). Primary CTA stays visible at every breakpoint.
+          </p>
+        </header>
+
+        <div class="nav-demo">
+          <div class="nav-demo__label">State 01 · Default (over hero)</div>
+          <div class="nav-demo__frame nav-demo__frame--hero">
+            <div class="nav-demo__inner">
+              <a class="site-brand" href="#"><img src="/assets/logos/acquiro-white.png" alt="Acquiro" /></a>
+              <div class="nav-demo__links">
+                <a class="nav-link is-active" href="#">Services</a>
+                <a class="nav-link" href="#">Work</a>
+                <a class="nav-link" href="#">About</a>
+                <a class="nav-link" href="#">Acquiro OS</a>
+                <button class="btn btn--primary btn--sm">Book a Call →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-demo">
+          <div class="nav-demo__label">State 02 · Scrolled (sticky · frosted)</div>
+          <div class="nav-demo__frame nav-demo__frame--scrolled" style="border-bottom: 1px solid var(--ac-hairline);">
+            <div class="nav-demo__inner">
+              <a class="site-brand" href="#"><img src="/assets/logos/acquiro-white.png" alt="Acquiro" /></a>
+              <div class="nav-demo__links">
+                <a class="nav-link" href="#">Services</a>
+                <a class="nav-link" href="#">Work</a>
+                <a class="nav-link" href="#">About</a>
+                <a class="nav-link" href="#">Acquiro OS</a>
+                <button class="btn btn--primary btn--sm">Book a Call</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-demo nav-demo--mobile">
+          <div class="nav-demo__label">State 03 · Mobile</div>
+          <div class="nav-demo__frame" style="border-bottom: 1px solid var(--ac-hairline);">
+            <div class="nav-demo__inner">
+              <a class="site-brand" href="#"><img src="/assets/logos/acquiro-white.png" alt="Acquiro" /></a>
+              <div style="display:flex; align-items:center; gap:12px;">
+                <button class="btn btn--primary" style="height:32px; font-size:11px; padding:0 12px;">Book a Call</button>
+                <span class="hamburger" aria-hidden="true">
+                  <span></span><span></span><span></span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="spec-rules">
+          <div class="spec-rules__label">Rules</div>
+          <div class="spec-rules__body">
+            Header is always sticky. Default state is fully transparent over the hero — the liquid background bleeds through the nav. After ~80px of scroll, the bar gains a frosted background and a hairline bottom border. Primary CTA never disappears, including on mobile (it shrinks beside a hamburger). Active link gets the orange underline rule, not the orange text colour — keeps the tracker visible without screaming.
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /.container -->
+
+    <!-- ============================================
+         06 · Footer (full-bleed demo + spec)
+         ============================================ -->
+    <section class="spec-section" id="footer" style="padding-bottom: 0;">
+      <div class="container">
+        <header class="spec-header">
+          <div class="spec-header__num">06 · Footer</div>
+          <h2 class="spec-header__title">Final CTA. Then meta.</h2>
+          <p class="spec-header__sub">
+            Persistent CTA strip closes the page. Below it: wordmark, contact, social, legal. Single dense row of meta — no decorative columns. The footer is the last conversion attempt before the user leaves.
+          </p>
+        </header>
+      </div>
+
+      <footer class="site-footer">
+        <div class="container">
+          <div class="footer-cta">
+            <h3 class="t-display" style="font-size:52px; max-width:700px;">
+              Ready to build your <span class="accent">acquisition system?</span>
+            </h3>
+            <a class="btn btn--primary btn--lg" href="#">Book a Call →</a>
+          </div>
+
+          <div class="footer-grid">
+            <div>
+              <a class="site-brand" href="#"><img src="/assets/logos/acquiro-white.png" alt="Acquiro" style="height:18px;"/></a>
+              <p style="font-size:13px; color: var(--ac-mute); margin-top:16px; max-width:320px; line-height:1.55;">
+                Performance media, built for scale.
+              </p>
+            </div>
+            <div>
+              <h4>Site</h4>
+              <ul>
+                <li><a href="#">Services</a></li>
+                <li><a href="#">Work</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Acquiro OS</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4>Contact</h4>
+              <ul>
+                <li><a href="mailto:anthony@acquiro.media">anthony@acquiro.media</a></li>
+                <li><a href="#">Book a Call</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4>Social</h4>
+              <ul>
+                <li><a href="#">Instagram</a></li>
+                <li><a href="#">YouTube</a></li>
+                <li><a href="#">TikTok</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="footer-base">
+            <span>© <span id="year">2026</span> Acquiro Media. All rights reserved.</span>
+            <span style="display:inline-flex; gap:24px;">
+              <a href="#">Privacy Policy</a>
+              <a href="#">Terms &amp; Conditions</a>
+            </span>
+          </div>
+        </div>
+      </footer>
+    </section>
+
+    <div class="container">
+
+      <!-- ============================================
+           07 · Motion
+           ============================================ -->
+      <section class="spec-section" id="motion">
+        <header class="spec-header">
+          <div class="spec-header__num">07 · Motion</div>
+          <h2 class="spec-header__title">Motion is communication, not decoration.</h2>
+          <p class="spec-header__sub">
+            Hover states reveal interactivity. Entrance animations cue the user that a section has loaded. Both stay slow and confident — never jittery. Long durations (~360ms standard, 600ms emphasised), GPU-friendly transforms only.
+          </p>
+        </header>
+
+        <div class="motion-grid">
+
+          <div class="motion-demo">
+            <div class="motion-demo__label">07.1 · BUTTON HOVER</div>
+            <div class="motion-demo__title">Lift &amp; invert</div>
+            <p class="motion-demo__body">Primary button lifts 1px, fills white, text inverts to black. 200ms ease-out. Hover the button below.</p>
+            <div class="motion-demo__stage">
+              <button class="btn btn--primary">Book a Call →</button>
+              <button class="btn btn--secondary">See the work</button>
+            </div>
+          </div>
+
+          <div class="motion-demo">
+            <div class="motion-demo__label">07.2 · CARD LIFT</div>
+            <div class="motion-demo__title">Translate-Y on hover</div>
+            <p class="motion-demo__body">Cards lift 4px and the border picks up the orange. Cue: this is a clickable surface. Hover the card below.</p>
+            <div class="motion-demo__stage">
+              <div class="lift-card">Hover me · Card lifts &amp; border accents</div>
+            </div>
+          </div>
+
+          <div class="motion-demo">
+            <div class="motion-demo__label">07.3 · NAV LINK HOVER</div>
+            <div class="motion-demo__title">Opacity → orange</div>
+            <p class="motion-demo__body">Nav links sit at 80% opacity. On hover they go full opacity and the colour shifts to orange. 120ms — fast, responsive.</p>
+            <div class="motion-demo__stage">
+              <a class="nav-link" href="#">Services</a>
+              <a class="nav-link" href="#">Work</a>
+              <a class="nav-link" href="#">About</a>
+              <a class="nav-link" href="#">Acquiro OS</a>
+            </div>
+          </div>
+
+          <div class="motion-demo">
+            <div class="motion-demo__label">07.4 · TERTIARY UNDERLINE</div>
+            <div class="motion-demo__title">Underline extends</div>
+            <p class="motion-demo__body">The orange underline grows 14 → 22px on hover. Tiny, but communicates direction. 200ms.</p>
+            <div class="motion-demo__stage">
+              <a href="#" class="btn btn--tertiary">Read the case study</a>
+            </div>
+          </div>
+
+          <div class="motion-demo">
+            <div class="motion-demo__label">07.5 · ENTRANCE · FADE-UP</div>
+            <div class="motion-demo__title">Sections fade up on scroll</div>
+            <p class="motion-demo__body">Below-the-fold blocks animate in once they enter the viewport. 20px translateY → 0, opacity 0 → 1, 600ms. Scroll up and back to retrigger.</p>
+            <div class="motion-demo__stage" style="flex-direction: column; align-items: stretch; padding: 16px;">
+              <div class="reveal" style="padding:16px 20px; background:var(--ac-surface-2); border:1px solid var(--ac-hairline); border-radius:var(--r-sm); font-size:14px;">
+                Block A · enters from below
+              </div>
+              <div class="reveal" style="padding:16px 20px; background:var(--ac-surface-2); border:1px solid var(--ac-hairline); border-radius:var(--r-sm); font-size:14px; transition-delay: 80ms;">
+                Block B · staggered 80ms
+              </div>
+              <div class="reveal" style="padding:16px 20px; background:var(--ac-surface-2); border:1px solid var(--ac-hairline); border-radius:var(--r-sm); font-size:14px; transition-delay: 160ms;">
+                Block C · staggered 160ms
+              </div>
+            </div>
+          </div>
+
+          <div class="motion-demo">
+            <div class="motion-demo__label">07.6 · HORIZON</div>
+            <div class="motion-demo__title">The signature background</div>
+            <p class="motion-demo__body">Pure dark canvas with a smooth warm bloom rising from below — bloom origin sits off-canvas, so only the soft upper edge diffuses into the dark. No hard edges, no defined band. Subtle 36s opacity pulse. Edge vignette pulls corners to near-black. Lives on the hero of every page.</p>
+            <div class="motion-demo__stage" style="padding:0; min-height:160px; overflow:hidden; position:relative;">
+              <div class="hero" style="padding:0; min-height:160px; width:100%;">
+                <div class="hero__bg" aria-hidden="true">
+                  <div class="hero__horizon"></div>
+                </div>
+                <div class="hero__inner" style="gap:6px;">
+                  <span class="t-mono" style="color: var(--ac-mute);">LIVE PREVIEW</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="principles">
+          <div class="principle">
+            <div class="principle__head">Purposeful</div>
+            <div class="principle__body">Motion communicates state or hierarchy. Never decorative.</div>
+          </div>
+          <div class="principle">
+            <div class="principle__head">Slow</div>
+            <div class="principle__body">Long durations (200–600ms). Confident, not jittery.</div>
+          </div>
+          <div class="principle">
+            <div class="principle__head">One thing</div>
+            <div class="principle__body">One animated element per viewport. The liquid bg is the exception.</div>
+          </div>
+          <div class="principle">
+            <div class="principle__head">Reduced</div>
+            <div class="principle__body">Honour <span class="t-mono" style="color:var(--ac-ink);">prefers-reduced-motion</span>. Static fallback for blobs &amp; reveals.</div>
+          </div>
+        </div>
+
+        <div class="spec-rules">
+          <div class="spec-rules__label">Rules</div>
+          <div class="spec-rules__body">
+            Animate transform and opacity only — never width, height, top, or left. Use will-change sparingly, only on permanently-animated elements like the hero blobs. Stagger entrance animations by 80–160ms when blocks share a parent. Always include a prefers-reduced-motion fallback that pins the element to its end state.
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /.container -->
+  </main>
+
+  <script src="/script.js" defer></script>
+</body>
+</html>

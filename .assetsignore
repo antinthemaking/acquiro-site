@@ -1,0 +1,10 @@
+# Files/directories here are excluded from the public static-assets bundle
+# served by Cloudflare. Worker source and config must never be fetchable
+# over HTTP.
+src/
+wrangler.jsonc
+wrangler.toml
+package.json
+package-lock.json
+node_modules/
+*.md
