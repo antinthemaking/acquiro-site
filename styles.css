@@ -722,7 +722,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 24px;
+  gap: 20px;
 }
 
 /* Hero bottom block (trust meta + logo strip) — absolutely pinned to
@@ -739,20 +739,37 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 }
 .hero__bottom > * { pointer-events: auto; }
 
-/* Hero-specific type sizing — smaller than the design-system display
-   so the hero feels balanced with the trust strip below it. */
+/* Hero-specific type sizing — 15% smaller than the previous balance
+   so the centred content sits cleanly without dominating the canvas. */
 .hero__headline {
   max-width: 18ch;
-  font-size: clamp(40px, 4.5vw + 1rem, 64px);
+  font-size: clamp(34px, 3.8vw + 1rem, 54px);
   line-height: 1.04;
-  letter-spacing: -2.4px;
+  letter-spacing: -2px;
 }
 .hero__sub {
-  max-width: 56ch;
+  max-width: 52ch;
   color: var(--ac-ink);
   opacity: 0.85;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.55;
+}
+
+/* Badge + buttons inside the hero — also scaled 15% smaller */
+.hero .badge-dot {
+  height: 19px;
+  padding: 0 9px;
+  font-size: 9px;
+  gap: 6px;
+}
+.hero .badge-dot::before {
+  width: 4px;
+  height: 4px;
+}
+.hero__ctas .btn {
+  height: 41px;
+  padding: 0 22px;
+  font-size: 13px;
 }
 
 .hero__ctas {
