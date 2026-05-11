@@ -729,44 +729,45 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 .logo-strip__track {
   display: flex;
   width: max-content;
-  animation: ac-marquee 50s linear infinite;
+  animation: ac-marquee 110s linear infinite;
   will-change: transform;
 }
 .logo-strip:hover .logo-strip__track { animation-play-state: paused; }
 .logo-cell {
   flex: 0 0 auto;
-  width: 200px;
-  height: 80px;
+  width: 180px;
+  height: 88px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-right: 1px solid var(--ac-hairline);
   color: rgba(237, 237, 237, 0.45);
   font-family: var(--font-sans);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 14px;
-  letter-spacing: 0.12em;
-  transition: color var(--d-2) var(--ease-out), background var(--d-2) var(--ease-out);
-  cursor: pointer;
+  letter-spacing: -0.005em;
   text-decoration: none;
+  position: relative;
+  transition: background var(--d-2) var(--ease-out);
 }
-.logo-cell:hover {
-  color: rgba(237, 237, 237, 0.92);
+a.logo-cell { cursor: pointer; }
+a.logo-cell:hover {
   background: rgba(255, 255, 255, 0.02);
 }
 
-/* Image logos — force any colour to white, soft opacity, brighten on hover */
+/* Image logos — uniform height for visual alignment.
+   Force to greyscale + white via filter, render at ac-mute-ish grey. */
 .logo-cell img {
-  max-width: 72%;
-  max-height: 56%;
+  max-height: 30px;
+  max-width: 130px;
   width: auto;
   height: auto;
   object-fit: contain;
   filter: brightness(0) invert(1);
-  opacity: 0.55;
+  opacity: 0.45;
   transition: opacity var(--d-2) var(--ease-out);
 }
-.logo-cell:hover img { opacity: 0.95; }
+a.logo-cell:hover img { opacity: 0.9; }
 
 /* Text fallback when there's no logo file yet */
 .logo-cell--text {
