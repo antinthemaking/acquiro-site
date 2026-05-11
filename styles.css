@@ -735,8 +735,8 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 .logo-strip:hover .logo-strip__track { animation-play-state: paused; }
 .logo-cell {
   flex: 0 0 auto;
-  width: 180px;
-  height: 88px;
+  width: 200px;
+  height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -755,11 +755,13 @@ a.logo-cell:hover {
   background: rgba(255, 255, 255, 0.02);
 }
 
-/* Image logos — uniform height for visual alignment.
-   Force to white via filter, render at clean mid-tone opacity. */
+/* Image logos — uniform visual weight across aspect ratios.
+   max-height lets square logos render at proper size; max-width
+   caps the runaway wide wordmarks. Both knobs balanced so a
+   1:1 logo and a 6:1 wordmark feel similar in optical mass. */
 .logo-cell img {
-  max-height: 34px;
-  max-width: 135px;
+  max-height: 52px;
+  max-width: 150px;
   width: auto;
   height: auto;
   object-fit: contain;
