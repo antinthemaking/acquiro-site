@@ -773,26 +773,36 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   margin-bottom: 0;
 }
 
-/* Logo strip variant inside hero — full-bleed, generous cell size.
-   Pushed to the bottom of the hero by the flex layout above. */
+/* Logo strip variant inside hero — full-bleed, cells 20% smaller than
+   spec, restructured to flex-column so the case-study pill stacks
+   under the logo with explicit gap (never overlapping). */
 .logo-strip--in-hero {
   position: relative;
   z-index: 1;
 }
 .logo-strip--in-hero .logo-cell {
-  width: 180px;
-  height: 96px;
+  width: 144px;
+  height: 88px;
+  flex-direction: column;
+  gap: 10px;
 }
 .logo-strip--in-hero .logo-cell img {
-  max-height: 56px;
-  max-width: 140px;
+  max-height: 45px;
+  max-width: 112px;
 }
 .logo-strip--in-hero .logo-strip__track {
   animation-duration: 90s;
 }
 .logo-strip--in-hero .logo-strip__edge-l,
 .logo-strip--in-hero .logo-strip__edge-r {
-  width: 120px;
+  width: 100px;
+}
+/* Inside the in-hero strip, the pill drops out of absolute positioning
+   so it sits in the flex flow below the logo with the 10px gap above. */
+.logo-strip--in-hero .logo-cell__case-pill {
+  position: static;
+  transform: none;
+  padding: 4px 10px 5px;
 }
 .logo-strip--in-hero .logo-strip__edge-l,
 .logo-strip--in-hero .logo-strip__edge-r {
