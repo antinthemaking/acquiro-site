@@ -371,27 +371,27 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 .badge-dot {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  height: 32px;
-  padding: 0 18px;
+  gap: 7px;
+  height: 22px;
+  padding: 0 11px;
   border: 1px solid rgba(232, 93, 4, 0.35);
   background: rgba(0, 0, 0, 0.45);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
   border-radius: var(--r-pill);
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 600;
   color: var(--ac-orange-hot);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 .badge-dot::before {
   content: '';
-  width: 6px;
-  height: 6px;
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
   background: var(--ac-orange);
-  box-shadow: 0 0 8px var(--ac-orange);
+  box-shadow: 0 0 6px var(--ac-orange);
 }
 
 /* =========================================================
@@ -434,7 +434,8 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   z-index: 50;
   background: transparent;
   border-bottom: 1px solid transparent;
-  transition: background-color 280ms ease-out,
+  transition: top 280ms ease-out,
+              background-color 280ms ease-out,
               backdrop-filter 280ms ease-out,
               border-color 280ms ease-out;
 }
@@ -447,14 +448,17 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   height: 72px;
 }
 
-/* Default state — visible from page load, fully transparent over hero */
+/* Default state — visible from page load, transparent, sat 24px below
+   the absolute top so there's breathing room above the brand + nav. */
 .site-header[data-state="hero"] {
+  top: 24px;
   background: transparent;
   border-bottom-color: transparent;
 }
 
-/* Scrolled state — gains frosted background + hairline bottom border */
+/* Scrolled state — snaps flush to top with frosted background */
 .site-header[data-state="scrolled"] {
+  top: 0;
   background: rgba(10, 10, 10, 0.85);
   -webkit-backdrop-filter: saturate(160%) blur(12px);
   backdrop-filter: saturate(160%) blur(12px);
@@ -595,8 +599,11 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding-top: clamp(56px, 7vw, 88px);
-  padding-bottom: clamp(72px, 8vw, 104px);
+  display: flex;
+  flex-direction: column;
+  min-height: max(720px, 100vh);
+  padding-top: clamp(140px, 16vw, 196px);
+  padding-bottom: clamp(48px, 5vw, 72px);
   background: var(--ac-black);
 }
 
@@ -710,12 +717,13 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 .hero__inner {
   position: relative;
   z-index: 1;
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   text-align: center;
-  gap: 20px;
-  margin-bottom: clamp(60px, 7.5vw, 96px);
+  gap: 24px;
 }
 
 /* Hero-specific type sizing — smaller than the design-system display
@@ -752,29 +760,26 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   margin-bottom: 0;
 }
 
-/* Logo strip variant inside hero — 25% smaller cells than the spec
-   marquee, AND constrained to 50% viewport width (25% inset each side)
-   for a snug, centered presentation. */
+/* Logo strip variant inside hero — full-bleed, generous cell size.
+   Pushed to the bottom of the hero by the flex layout above. */
 .logo-strip--in-hero {
   position: relative;
   z-index: 1;
-  max-width: 50vw;
-  margin-inline: auto;
 }
 .logo-strip--in-hero .logo-cell {
-  width: 135px;
-  height: 72px;
+  width: 180px;
+  height: 96px;
 }
 .logo-strip--in-hero .logo-cell img {
-  max-height: 42px;
-  max-width: 105px;
+  max-height: 56px;
+  max-width: 140px;
 }
 .logo-strip--in-hero .logo-strip__track {
-  animation-duration: 60s;
+  animation-duration: 90s;
 }
 .logo-strip--in-hero .logo-strip__edge-l,
 .logo-strip--in-hero .logo-strip__edge-r {
-  width: 64px;
+  width: 120px;
 }
 .logo-strip--in-hero .logo-strip__edge-l,
 .logo-strip--in-hero .logo-strip__edge-r {
@@ -863,26 +868,42 @@ a.logo-cell:hover img { opacity: 1; }
   vertical-align: super;
 }
 
-/* Tiny "Case Study" badge that fades in on hover for clickable logos */
+/* "Read case study" hover overlay on clickable logo cells.
+   Full-cell dark wash + blur on the logo, orange text floats on top.
+   Replaces the previous tiny-text-below pattern. */
 .logo-cell {
   position: relative;
+  overflow: hidden;
+}
+.logo-cell img {
+  transition: opacity var(--d-2) var(--ease-out),
+              filter var(--d-2) var(--ease-out);
 }
 .logo-cell__badge {
   position: absolute;
-  bottom: 6px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 10, 10, 0.72);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
   color: var(--ac-orange);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
   opacity: 0;
   transition: opacity var(--d-2) var(--ease-out);
   pointer-events: none;
-  white-space: nowrap;
 }
-.logo-cell:hover .logo-cell__badge { opacity: 1; }
+a.logo-cell:hover .logo-cell__badge { opacity: 1; }
+a.logo-cell:hover img {
+  filter: brightness(0) invert(1) blur(2px);
+  opacity: 0.5;
+}
 .logo-strip__edge-l,
 .logo-strip__edge-r {
   position: absolute;
