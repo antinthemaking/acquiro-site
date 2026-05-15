@@ -3828,4 +3828,12 @@ html, body {
     margin-inline: auto;
     text-wrap: balance;
   }
+
+  /* Problem / Solution block · the two halves stack on mobile under
+     the existing 960px breakpoint with a 20px gap. Bump that gap +50%
+     so "The problem" headline has breathing room before "Our solution"
+     starts. */
+  .problem-block {
+    row-gap: 30px;
+  }
 }
