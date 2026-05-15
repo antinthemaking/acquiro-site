@@ -3733,26 +3733,17 @@ a.logo-cell:hover .logo-cell__case-pill { opacity: 0; }
 }
 
 /* ---------- Booking-confirmed iClosed call-details widget ----------
-   Hosts host / time / time zone / add-to-calendar buttons populated
-   by iClosed from the redirect URL params. Frames the widget in a
-   subtle dark card so it sits cleanly between the hero and the
-   "what to expect" list. */
+   The widget renders its own internal card UI (Email sent banner,
+   meeting details, Add to Calendar buttons), so the wrapper sits
+   transparent on the page background. Wrapper exists only to centre
+   the widget at a comfortable reading width. */
 .bc-widget-section {
   padding: clamp(32px, 4vw, 56px) 0 clamp(48px, 6vw, 80px);
 }
 .bc-widget {
   max-width: 760px;
   margin: 0 auto;
-  padding: 8px;
-  border: 1px solid var(--ac-hairline);
-  border-radius: 12px;
-  background: rgba(20, 20, 20, 0.6);
 }
 .bc-widget .call-details-widget {
   display: block;
-  border-radius: 6px;
-  overflow: hidden;
-}
-@media (max-width: 640px) {
-  .bc-widget { padding: 6px; border-radius: 10px; }
 }
