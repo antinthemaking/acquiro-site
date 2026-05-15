@@ -13,7 +13,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="/styles.css?v=16" />
+  <!-- Warm the iClosed origin so the call-details widget paints fast. -->
+  <link rel="preconnect" href="https://app.iclosed.io" crossorigin />
+
+  <link rel="stylesheet" href="/styles.css?v=28" />
 </head>
 <body class="page-book page-confirmed">
 
@@ -28,20 +31,38 @@
   <main>
 
     <!-- ============================================
-         Hero — confirmation moment.
+         Hero · confirmation moment. Name personalisation is injected
+         by /booking-confirmed/confirmed.js from the iClosed redirect
+         params (invitee_full_name → first name only).
          ============================================ -->
     <section class="bc-hero">
       <div class="container">
         <div class="bc-hero__inner">
           <div class="eyebrow eyebrow--no-rule">Call Booked</div>
-          <h1 class="bc-hero__headline">You're in. <span class="accent">Here's what to expect.</span></h1>
-          <p class="bc-hero__sub">A 30-minute conversation about your business, your goals, and how Acquiro can build the acquisition system to get you there.</p>
+          <h1 class="bc-hero__headline">You&rsquo;re in<span id="b-name"></span>. <span class="accent">Here&rsquo;s what to expect.</span></h1>
+          <p class="bc-hero__sub">Your meeting details are below. A copy has also been sent to your inbox.</p>
         </div>
       </div>
     </section>
 
     <!-- ============================================
-         What to expect — four numbered points.
+         iClosed call-details widget · auto-populates the host, time,
+         time zone, and add-to-calendar buttons from the redirect URL
+         params. Same widget.js script as the Lift / inline embed.
+         ============================================ -->
+    <section class="bc-widget-section" aria-label="Your call details">
+      <div class="container">
+        <div class="bc-widget">
+          <!-- iClosed widget begin -->
+          <div class="call-details-widget" data-url="https://app.iclosed.io/embed" style="width: 100%; height: 340px"></div>
+          <script type="text/javascript" src="https://app.iclosed.io/assets/widget.js" async></script>
+          <!-- iClosed widget end -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         What to expect · four numbered points.
          ============================================ -->
     <section class="bc-expect" aria-label="What to expect on the call">
       <div class="container">
@@ -49,29 +70,29 @@
           <li class="bc-list__item">
             <span class="bc-list__num">01</span>
             <div class="bc-list__body">
-              <h3 class="bc-list__label">We'll start by understanding where your business is today.</h3>
-              <p class="bc-list__desc">What's working, what's not, and what's on your radar.</p>
+              <h3 class="bc-list__label">We&rsquo;ll start by understanding where your business is today.</h3>
+              <p class="bc-list__desc">What&rsquo;s working, what&rsquo;s not, and what&rsquo;s on your radar.</p>
             </div>
           </li>
           <li class="bc-list__item">
             <span class="bc-list__num">02</span>
             <div class="bc-list__body">
-              <h3 class="bc-list__label">We'll dig into your acquisition picture.</h3>
+              <h3 class="bc-list__label">We&rsquo;ll dig into your acquisition picture.</h3>
               <p class="bc-list__desc">Current channels, current spend, current results, biggest blockers.</p>
             </div>
           </li>
           <li class="bc-list__item">
             <span class="bc-list__num">03</span>
             <div class="bc-list__body">
-              <h3 class="bc-list__label">We'll map what an acquisition system would look like for you.</h3>
-              <p class="bc-list__desc">The pathway that fits, the timeline, what you'd see in the first 90 days.</p>
+              <h3 class="bc-list__label">We&rsquo;ll map what an acquisition system would look like for you.</h3>
+              <p class="bc-list__desc">The pathway that fits, the timeline, what you&rsquo;d see in the first 90 days.</p>
             </div>
           </li>
           <li class="bc-list__item">
             <span class="bc-list__num">04</span>
             <div class="bc-list__body">
-              <h3 class="bc-list__label">You'll leave with clarity, whether we work together or not.</h3>
-              <p class="bc-list__desc">Either we're a fit and we move forward, or you walk away with a clearer view of what to do next.</p>
+              <h3 class="bc-list__label">You&rsquo;ll leave with clarity, whether we work together or not.</h3>
+              <p class="bc-list__desc">Either we&rsquo;re a fit and we move forward, or you walk away with a clearer view of what to do next.</p>
             </div>
           </li>
         </ol>
@@ -79,7 +100,7 @@
     </section>
 
     <!-- ============================================
-         Before the call — three reflection prompts.
+         Before the call · three reflection prompts.
          ============================================ -->
     <section class="bc-prep" aria-label="Before the call">
       <div class="container">
@@ -87,19 +108,10 @@
           <h2 class="bc-prep__headline">A few things to think about before we talk.</h2>
           <ul class="bc-prep__list">
             <li>Where do you actually want this business in 12 months?</li>
-            <li>What's the single biggest thing slowing you down right now?</li>
+            <li>What&rsquo;s the single biggest thing slowing you down right now?</li>
             <li>What would a great outcome from this call look like for you?</li>
           </ul>
         </div>
-      </div>
-    </section>
-
-    <!-- ============================================
-         Founder sign-off.
-         ============================================ -->
-    <section class="bc-signoff" aria-label="From the founder">
-      <div class="container">
-        <p class="bc-signoff__note">"I'll see you on the call.<br /><span class="bc-signoff__name">— Anthony</span>"</p>
       </div>
     </section>
 
@@ -118,5 +130,6 @@
   </footer>
 
   <script src="/script.js?v=7" defer></script>
+  <script src="/booking-confirmed/confirmed.js?v=1" defer></script>
 </body>
 </html>
