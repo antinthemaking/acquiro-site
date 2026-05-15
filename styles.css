@@ -2672,7 +2672,7 @@ a.logo-cell:hover .logo-cell__case-pill { opacity: 0; }
 
 .bc-hero {
   padding-top: clamp(120px, 14vw, 200px);
-  padding-bottom: clamp(48px, 6vw, 80px);
+  padding-bottom: clamp(24px, 3vw, 40px);
   text-align: center;
 }
 .bc-hero__inner {
@@ -3738,7 +3738,7 @@ a.logo-cell:hover .logo-cell__case-pill { opacity: 0; }
    transparent on the page background. Wrapper exists only to centre
    the widget at a comfortable reading width. */
 .bc-widget-section {
-  padding: clamp(32px, 4vw, 56px) 0 clamp(48px, 6vw, 80px);
+  padding: clamp(16px, 2vw, 28px) 0 clamp(48px, 6vw, 80px);
 }
 .bc-widget {
   max-width: 760px;
@@ -3746,4 +3746,86 @@ a.logo-cell:hover .logo-cell__case-pill { opacity: 0; }
 }
 .bc-widget .call-details-widget {
   display: block;
+}
+
+/* =========================================================
+   Mobile optimisation sweep · all rules below trigger only at
+   the mobile breakpoint. Desktop layouts stay untouched.
+   ========================================================= */
+
+/* No horizontal page scroll anywhere on the site at any viewport. */
+html, body {
+  overflow-x: hidden;
+}
+
+@media (max-width: 760px) {
+  /* ---------- Subheadlines · scale down so they sit as supporting
+       text under the H1, not as competing secondary headlines. ---------- */
+  .t-sub { font-size: 15px; line-height: 1.5; }
+  .hero__sub { font-size: 14px; }
+  .section--funnel .t-sub,
+  .section--pillars .t-sub,
+  .section--sunken .t-sub,
+  .section--scope .t-sub { font-size: 14px; line-height: 1.45; }
+
+  /* Pathways teaser subhead ("Pick where you're at...") and Four-Pillar
+     subhead ("The operational framework...") need to fit on one line
+     at mobile, so reduce further and let text-wrap balance. */
+  .section--pillars .section-header .t-sub,
+  .section--sunken .section-header .t-sub {
+    font-size: 13px;
+    letter-spacing: -0.2px;
+    text-wrap: balance;
+  }
+
+  /* ---------- Infinite Funnel section · stack the two-column
+       composition into a single column on mobile so the diagram and
+       the detail panel both fit within the viewport. ---------- */
+  .funnel-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .funnel {
+    max-width: 280px;
+  }
+  .section--funnel .section-header {
+    margin-bottom: 40px;
+  }
+  /* Stage detail panel — drop the fixed min-height so it sizes to its
+     active pane and doesn't reserve excessive vertical space. */
+  .stage-detail {
+    min-height: auto;
+    padding: 28px 22px;
+  }
+
+  /* ---------- Scope boundary table · stack into two distinct blocks
+       on mobile. All "What we do" cells flow first (do header, then
+       the 4 ✓ rows), then all "What we don't" cells (don't header,
+       then the 4 ✕ rows). Uses display:contents on the row wrappers
+       so individual cells become direct flex children of the table,
+       letting `order` properties group them by column. ---------- */
+  .scope-table {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .scope-table__row { display: contents; }
+  .scope-table__cell {
+    border-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 18px 22px;
+  }
+  .scope-table__cell--head.scope-table__cell--do  { order: 1; border-top: 0; }
+  .scope-table__cell--do                          { order: 2; }
+  .scope-table__cell--head.scope-table__cell--dont { order: 3; border-top: 1px solid rgba(232, 93, 4, 0.18); }
+  .scope-table__cell--dont                        { order: 4; }
+
+  /* "A focused scope keeps the model lean..." closing line — let it
+     wrap to 2 lines on mobile with a comfortable max-width rather than
+     try to fit the whole thing on a cramped line. */
+  .scope-closing {
+    max-width: 30ch;
+    margin-inline: auto;
+    text-wrap: balance;
+  }
 }
