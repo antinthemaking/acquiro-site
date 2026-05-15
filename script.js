@@ -48,4 +48,97 @@
     }, { rootMargin: '0px 0px -10% 0px', threshold: 0.1 });
     revealEls.forEach((el) => io.observe(el));
   }
+
+  // Stat strip — count-up animation. The whole strip is observed as one
+  // unit; when it enters the viewport, every cell fades + lifts (with
+  // staggered CSS transition-delay) and each number ticks from 0 → its
+  // data-target value. Prefix/suffix wrap the animated digit
+  // (e.g. "$", "M+", "+").
+  const statStrip = document.querySelector('.stat-strip');
+  if (statStrip && 'IntersectionObserver' in window) {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const countUp = (el) => {
+      const target = parseFloat(el.dataset.target);
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      if (reduceMotion || isNaN(target)) {
+        el.textContent = `${prefix}${target}${suffix}`;
+        return;
+      }
+      const duration = 1400;
+      const start = performance.now();
+      const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+      const tick = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const value = Math.round(target * easeOut(progress));
+        el.textContent = `${prefix}${value}${suffix}`;
+        if (progress < 1) requestAnimationFrame(tick);
+      };
+      el.textContent = `${prefix}0${suffix}`;
+      requestAnimationFrame(tick);
+    };
+    const fireStats = () => {
+      const cells = statStrip.querySelectorAll('.reveal-stat');
+      cells.forEach((cell, idx) => {
+        cell.classList.add('is-visible');
+        const num = cell.querySelector('.stat-cell__num[data-target]');
+        if (num) setTimeout(() => countUp(num), idx * 100);
+      });
+    };
+    const statIo = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          fireStats();
+          statIo.unobserve(statStrip);
+        }
+      });
+    }, { threshold: 0.1 });
+    statIo.observe(statStrip);
+  }
+
+  // Infinite Funnel — stage-detail panel.
+  // Hovering (or focusing) a node updates the persistent panel on the right;
+  // leaving reverts to the default hint. On touch devices we use tap to set
+  // a sticky active state instead, since hover doesn't apply.
+  const funnel = document.querySelector('.funnel');
+  const stageDetail = document.querySelector('.stage-detail');
+  if (funnel && stageDetail) {
+    const nodes = funnel.querySelectorAll('.funnel__node[data-stage]');
+    const panes = stageDetail.querySelectorAll('.stage-detail__pane');
+    const defaultPane = stageDetail.querySelector('.stage-detail__pane--default');
+    const isTouch = window.matchMedia('(hover: none)').matches;
+
+    const setActive = (stageId) => {
+      let matched = false;
+      panes.forEach((p) => {
+        const isMatch = p.dataset.stage === stageId;
+        p.classList.toggle('is-active', isMatch);
+        if (isMatch) matched = true;
+      });
+      if (defaultPane) defaultPane.classList.toggle('is-active', !matched);
+      nodes.forEach((n) => n.classList.toggle('is-active', n.dataset.stage === stageId));
+      funnel.classList.toggle('has-active', !!stageId);
+    };
+
+    const clearActive = () => {
+      panes.forEach((p) => p.classList.remove('is-active'));
+      if (defaultPane) defaultPane.classList.add('is-active');
+      nodes.forEach((n) => n.classList.remove('is-active'));
+      funnel.classList.remove('has-active');
+    };
+
+    nodes.forEach((node) => {
+      const stageId = node.dataset.stage;
+
+      if (isTouch) {
+        // Tap stays sticky — no auto revert.
+        node.addEventListener('click', () => setActive(stageId));
+      } else {
+        node.addEventListener('mouseenter', () => setActive(stageId));
+        node.addEventListener('mouseleave', clearActive);
+        node.addEventListener('focus',  () => setActive(stageId));
+        node.addEventListener('blur',   clearActive);
+      }
+    });
+  }
 })();

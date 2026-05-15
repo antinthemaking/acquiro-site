@@ -228,7 +228,36 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 
 .section {
   padding-block: var(--section-py);
+  position: relative;
 }
+
+/* Section ambient glows — soft orange blooms in the corners, very low
+   opacity, fully outside the content. Breaks up the flat black/grey
+   gap between hero (horizon glow) and footer so the page reads as one
+   atmospheric piece rather than discrete blocks. */
+.section--glow-l::before,
+.section--glow-r::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 900px;
+  height: 900px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.9;
+}
+.section--glow-l::before {
+  left: -450px;
+  transform: translateY(-50%);
+  background: radial-gradient(circle, rgba(232, 93, 4, 0.12) 0%, rgba(232, 93, 4, 0.05) 35%, transparent 65%);
+}
+.section--glow-r::before {
+  right: -450px;
+  transform: translateY(-50%);
+  background: radial-gradient(circle, rgba(232, 93, 4, 0.10) 0%, rgba(232, 93, 4, 0.04) 35%, transparent 65%);
+}
+.section > .container { position: relative; z-index: 1; }
 
 .divider {
   height: 1px;
@@ -392,6 +421,22 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   border-radius: 50%;
   background: var(--ac-orange);
   box-shadow: 0 0 6px var(--ac-orange);
+  animation: ac-dot-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes ac-dot-pulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 6px var(--ac-orange);
+  }
+  50% {
+    opacity: 0.3;
+    box-shadow: 0 0 12px var(--ac-orange);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .badge-dot::before { animation: none; }
 }
 
 /* =========================================================
@@ -538,9 +583,38 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
   gap: var(--s-7);
   margin-top: var(--s-7);
+}
+
+/* Social row — icon-only links, evenly spaced. Sized so all 4 fit
+   on a single row inside the footer column. */
+.footer-social {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+}
+.footer-social li { padding: 0; }
+.footer-social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--ac-ink);
+  opacity: 0.75;
+  transition: opacity var(--d-2) var(--ease-out),
+              border-color var(--d-2) var(--ease-out),
+              color var(--d-2) var(--ease-out);
+}
+.footer-social svg { width: 16px; height: 16px; }
+.footer-social a:hover {
+  color: var(--ac-orange);
+  border-color: rgba(232, 93, 4, 0.4);
+  opacity: 1;
 }
 
 .footer-grid h4 {
@@ -566,19 +640,53 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 }
 .footer-grid a:hover { color: var(--ac-orange); opacity: 1; }
 
-.footer-base {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 24px;
-  margin-top: var(--s-7);
+/* Footer button that needs to look like a link (used for the iClosed
+   popup "Book a Call" trigger in the footer SITE column). */
+.footer-link-btn {
+  font: inherit;
+  font-size: 14px;
+  color: var(--ac-ink);
+  opacity: 0.9;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  line-height: inherit;
+  transition: color var(--d-2) var(--ease-out),
+              opacity var(--d-2) var(--ease-out);
+}
+.footer-link-btn:hover { color: var(--ac-orange); opacity: 1; }
+
+/* Long legal/compliance line that sits below the link grid, above the © line.
+   Sized to fit on two lines at desktop widths. */
+.footer-disclaimer {
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  max-width: 100%;
+  margin: var(--s-9) 0 0;
   padding-top: var(--s-5);
   border-top: 1px solid var(--ac-hairline);
+  text-wrap: balance;
+}
+
+.footer-base {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-top: var(--s-5);
   flex-wrap: wrap;
   font-size: 12px;
   color: var(--ac-mute);
+  text-align: center;
 }
 
+@media (max-width: 1080px) {
+  .footer-grid { grid-template-columns: 1fr 1fr 1fr; }
+}
 @media (max-width: 760px) {
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .footer-cta { padding-bottom: var(--s-6); }
@@ -722,7 +830,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: 20px;
+  gap: 23px;
 }
 
 /* Hero bottom block (trust meta + logo strip) — absolutely pinned to
@@ -739,37 +847,59 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 }
 .hero__bottom > * { pointer-events: auto; }
 
-/* Hero-specific type sizing — 15% smaller than the previous balance
-   so the centred content sits cleanly without dominating the canvas. */
+/* Hero-specific type sizing — scaled +15% from the previous balance
+   so the centred content reads with more presence on the canvas. */
 .hero__headline {
   max-width: 18ch;
-  font-size: clamp(34px, 3.8vw + 1rem, 54px);
+  font-size: clamp(39px, 4.37vw + 1.15rem, 62px);
   line-height: 1.04;
-  letter-spacing: -2px;
+  letter-spacing: -2.3px;
 }
 .hero__sub {
-  max-width: 52ch;
+  max-width: 78ch;
   color: var(--ac-ink);
-  opacity: 0.85;
-  font-size: 14px;
+  opacity: 0.6;
+  font-size: 16px;
   line-height: 1.55;
+  text-wrap: balance;
 }
 
-/* Badge + buttons inside the hero — also scaled 15% smaller */
+/* Badge + buttons inside the hero — scaled +15% to match the type. */
 .hero .badge-dot {
-  height: 19px;
-  padding: 0 9px;
-  font-size: 9px;
-  gap: 6px;
+  height: 22px;
+  padding: 0 10px;
+  font-size: 10px;
+  gap: 7px;
 }
 .hero .badge-dot::before {
-  width: 4px;
-  height: 4px;
+  width: 5px;
+  height: 5px;
 }
 .hero__ctas .btn {
-  height: 41px;
-  padding: 0 22px;
-  font-size: 13px;
+  height: 47px;
+  padding: 0 25px;
+  font-size: 15px;
+}
+/* Hero CTA — solid opaque orange so it pops above the fold.
+   Other .btn--primary instances across the page keep the lighter
+   outline-with-bg treatment. */
+.hero__ctas .btn--primary {
+  background: var(--ac-orange);
+  color: var(--ac-white);
+  border-color: var(--ac-orange);
+  box-shadow:
+    0 12px 32px -8px rgba(232, 93, 4, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+/* Hover inverts back to the transparent/outline treatment. */
+.hero__ctas .btn--primary:hover {
+  background: rgba(232, 93, 4, 0.06);
+  color: var(--ac-orange-hot);
+  border-color: var(--ac-orange);
+  box-shadow:
+    0 6px 24px -8px rgba(232, 93, 4, 0.45),
+    inset 0 0 0 1px rgba(232, 93, 4, 0.25);
+  transform: translateY(-1px);
 }
 
 .hero__ctas {
@@ -886,6 +1016,14 @@ a.logo-cell:hover {
   transition: opacity var(--d-2) var(--ease-out);
 }
 a.logo-cell:hover img { opacity: 1; }
+
+/* Override for logos delivered as black-on-white with NO alpha channel
+   (e.g. Betty Bramble's .avif). Plain invert(1) flips white bg → black
+   (matches the dark strip and disappears) and black text → white. */
+.logo-cell img.logo-img--white-bg {
+  filter: invert(1);
+  mix-blend-mode: screen;
+}
 
 /* Text fallback when there's no logo file yet */
 .logo-cell--text {
@@ -1077,25 +1215,95 @@ a.logo-cell:hover .logo-cell__case-pill { opacity: 0; }
 
 /* ---------- Problem / opportunity block ---------- */
 .problem-block {
-  text-align: center;
-  max-width: 920px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  column-gap: 80px;
+  align-items: start;
+  max-width: 1120px;
   margin-inline: auto;
+  text-align: left;
+}
+.problem-block__lead,
+.problem-block__body {
   display: flex;
   flex-direction: column;
-  gap: 28px;
+}
+.problem-block__body {
+  position: relative;
+}
+/* Orange hairline divider sitting in the centre of the 80px column gap.
+   Fades top + bottom so it reads as a quiet editorial spine, not a hard rule. */
+.problem-block__body::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: -40px;
+  width: 1px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(232, 93, 4, 0.35) 18%,
+    rgba(232, 93, 4, 0.45) 50%,
+    rgba(232, 93, 4, 0.25) 82%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+/* Editorial index marker — small mono "01" / "02" with a short orange rule. */
+.problem-block__index {
+  display: inline-flex;
   align-items: center;
+  gap: 14px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--ac-orange);
+  font-weight: 600;
+  margin-bottom: 11px;
+}
+.problem-block__index-rule {
+  display: inline-block;
+  width: 28px;
+  height: 1px;
+  background: rgba(232, 93, 4, 0.45);
+}
+
+/* Eyebrow → headline spacing (same on both columns so the headlines align). */
+.problem-block__lead .problem-block__headline,
+.problem-block__body .problem-block__headline {
+  margin-top: 17px;
+}
+/* Tighter gap between the right-side headline and its subheadline. */
+.problem-block__body .problem-block__sub {
+  margin-top: 12px;
+}
+
+@media (max-width: 960px) {
+  .problem-block__body::before { display: none; }
+  .problem-block__index { margin-bottom: 8px; }
 }
 .problem-block__headline {
-  font-size: clamp(36px, 4vw + 1rem, 64px);
+  font-size: clamp(32px, 3.4vw + 1rem, 52px);
   line-height: 1.06;
-  letter-spacing: -2px;
+  letter-spacing: -1.6px;
   text-wrap: balance;
 }
 .problem-block__sub {
   color: var(--ac-mute);
-  max-width: 62ch;
-  font-size: 18px;
-  line-height: 1.55;
+  max-width: 56ch;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+@media (max-width: 960px) {
+  .problem-block {
+    grid-template-columns: 1fr;
+    row-gap: 20px;
+    max-width: 720px;
+  }
+  .problem-block__body { padding-top: 0; }
 }
 
 /* ---------- Pathways teaser grid ---------- */
@@ -1173,8 +1381,15 @@ a.logo-cell:hover .logo-cell__case-pill { opacity: 0; }
   aspect-ratio: 4 / 5;
   border-radius: var(--r-md);
   overflow: hidden;
-  background: var(--ac-surface);
+  background: var(--ac-black);
   border: 1px solid var(--ac-hairline);
+}
+.founder-close__photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
 }
 .founder-close__photo-placeholder {
   width: 100%;
@@ -1223,83 +1438,227 @@ a.logo-cell:hover .logo-cell__case-pill { opacity: 0; }
 }
 
 /* =========================================================
+   Section 11 — Scope boundary
+   Two-column "what we don't" / "what we do" with orange divider.
+   The contrast IS the message — muted left, bright right.
+   ========================================================= */
+.section--scope {
+  padding-top: clamp(84px, 8.4vw, 126px);
+  padding-bottom: clamp(84px, 8.4vw, 126px);
+  background: var(--ac-black);
+}
+.scope-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto var(--s-9);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+/* Comparison table — rounded outer border, thin row + column dividers.
+   Both columns at full opacity; only the marks carry the contrast. */
+.scope-table {
+  max-width: 1100px;
+  margin: 0 auto;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--ac-surface);
+}
+.scope-table__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+.scope-table__row + .scope-table__row {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+.scope-table__cell {
+  padding: 24px 32px;
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.4;
+  letter-spacing: -0.2px;
+  color: var(--ac-ink);
+}
+/* Vertical orange divider between the two columns. */
+.scope-table__cell + .scope-table__cell {
+  border-left: 1px solid rgba(232, 93, 4, 0.15);
+}
+
+/* Header row — mono uppercase labels, orange on left, muted on right. */
+.scope-table__cell--head {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding-top: 22px;
+  padding-bottom: 22px;
+}
+.scope-table__row--head .scope-table__cell--do   { color: var(--ac-orange); }
+.scope-table__row--head .scope-table__cell--dont { color: rgba(255, 255, 255, 0.5); }
+
+/* Mark column inside each content cell. */
+.scope-table__mark {
+  flex: 0 0 auto;
+  width: 18px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+}
+.scope-table__cell--do   .scope-table__mark { color: var(--ac-orange); }
+.scope-table__cell--dont .scope-table__mark { color: rgba(255, 255, 255, 0.5); }
+.scope-table__text { flex: 1 1 auto; }
+
+.scope-closing {
+  margin: clamp(60px, 6vw, 88px) auto 0;
+  max-width: none;
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--ac-mute);
+}
+@media (min-width: 1000px) {
+  .scope-closing { white-space: nowrap; }
+}
+
+@media (max-width: 880px) {
+  .scope-table__row {
+    grid-template-columns: 1fr;
+  }
+  .scope-table__cell + .scope-table__cell {
+    border-left: 0;
+    border-top: 1px solid rgba(232, 93, 4, 0.15);
+  }
+  .scope-table__cell { padding: 20px 24px; }
+}
+
+/* =========================================================
    Homepage section components (Sections 4–8)
    Infinite Funnel diagram, Four-Pillar grid, Acquiro OS block,
    case-study grid, stat-strip.
    ========================================================= */
 
 /* ---------- Infinite Funnel · circular flywheel diagram ---------- */
-.funnel {
-  position: relative;
-  aspect-ratio: 1 / 1;
-  max-width: 640px;
-  margin: 0 auto;
+/* Section 4 — Infinite Funnel.
+   Top padding tightened −40% to bring the loop closer to the Problem
+   section above. Bottom padding +30% on top of the previous value so
+   the loop has extra breathing room before the Four-Pillar section. */
+.section--funnel {
+  padding-top: clamp(72px, 7.2vw, 108px);
+  padding-bottom: clamp(100px, 12.5vw, 150px);
 }
-.funnel::before {
-  content: '';
-  position: absolute;
-  inset: 14%;
-  border: 1.5px dashed rgba(232, 93, 4, 0.4);
-  border-radius: 50%;
-  pointer-events: none;
-}
-/* Direction-arrow chevron sitting on the right side of the ring */
-.funnel::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: calc(14% - 6px);
-  width: 12px;
-  height: 12px;
-  border-top: 1.5px solid var(--ac-orange);
-  border-right: 1.5px solid var(--ac-orange);
-  transform: translateY(-50%) rotate(135deg);
-  pointer-events: none;
+/* Spacing between the subheadline and the two-column composition. */
+.section--funnel .section-header {
+  margin-bottom: clamp(80px, 8vw, 120px);
 }
 
+.funnel {
+  position: relative;
+  width: 100%;
+  max-width: 408px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+}
+/* (Direction-arrow chevron removed — was overlapping stage 03 visually.) */
+
+/* SVG loop ring — fills the funnel container so it visually connects
+   the 8 nodes positioned around its circumference. Base dashed circle
+   + an animated gradient arc that slowly rotates around for ambient
+   "compounding" energy. */
+.funnel__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+.funnel__ring-base {
+  fill: none;
+  stroke: rgba(232, 93, 4, 0.3);
+  stroke-width: 0.22;
+  stroke-dasharray: 0.5 1;
+}
+.funnel__ring-pulse {
+  fill: none;
+  stroke: url(#acRingGrad);
+  stroke-width: 0.6;
+  stroke-linecap: round;
+  /* Circumference of r=49.5 ≈ 311. 30 visible / 281 gap = one arc. */
+  stroke-dasharray: 30 281;
+  transform-origin: center;
+  animation: ac-ring-rotate 22s linear infinite;
+  filter: drop-shadow(0 0 4px rgba(232, 93, 4, 0.55));
+  transition: filter var(--d-3) var(--ease-out),
+              stroke-width var(--d-3) var(--ease-out);
+}
+.funnel.has-active .funnel__ring-pulse,
+.funnel:has(.funnel__node:hover) .funnel__ring-pulse {
+  stroke-width: 0.85;
+  filter: drop-shadow(0 0 8px rgba(255, 138, 58, 0.8));
+}
+
+@keyframes ac-ring-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Animated infinity glyph at the centre — breathing scale on the SVG,
+   plus a bright shimmer dot flowing along the path stroke. */
 .funnel__center {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  text-align: center;
-  max-width: 220px;
   display: flex;
-  flex-direction: column;
-  gap: 8px;
   align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 75px;
 }
-.funnel__center-tag {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--ac-orange);
+.funnel__infinity {
+  width: 100%;
+  height: 100%;
+  animation: ac-infinity-breathe 5.5s ease-in-out infinite;
 }
-.funnel__center-title {
-  font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: 22px;
-  line-height: 1.15;
-  letter-spacing: -0.6px;
-  color: var(--ac-ink);
-}
-.funnel__center-sub {
-  font-size: 12px;
-  color: var(--ac-mute);
-  line-height: 1.45;
+.funnel__infinity-flow {
+  stroke-dasharray: 8 92;
+  stroke-dashoffset: 0;
+  animation: ac-infinity-flow 3.6s linear infinite;
+  filter: drop-shadow(0 0 4px rgba(255, 200, 150, 0.7));
 }
 
+@keyframes ac-infinity-breathe {
+  0%, 100% { transform: scale(1); opacity: 0.96; }
+  50%      { transform: scale(1.045); opacity: 1; }
+}
+@keyframes ac-infinity-flow {
+  from { stroke-dashoffset: 0; }
+  to   { stroke-dashoffset: -100; }
+}
+
+/* Stage nodes — number disc (56px) inside the ring, label sits below
+   outside the ring. Wrapper kept compact so labels don't collide with
+   adjacent nodes around the 480px circle. */
 .funnel__node {
   position: absolute;
   transform: translate(-50%, -50%);
-  width: 124px;
+  width: 120px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  z-index: 3;
+  transition: opacity var(--d-3) var(--ease-out);
 }
 .funnel__node--01 { top: 0%;   left: 50%; }
 .funnel__node--02 { top: 15%;  left: 85%; }
@@ -1314,48 +1673,98 @@ a.logo-cell:hover .logo-cell__case-pill { opacity: 0; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  background: rgba(232, 93, 4, 0.10);
-  border: 1px solid rgba(232, 93, 4, 0.5);
+  /* Fully opaque base so the rotating ring line never bleeds through. */
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255, 138, 58, 0.25), rgba(232, 93, 4, 0.06) 65%),
+    rgb(20, 20, 22);
+  border: 1px solid rgba(232, 93, 4, 0.55);
   color: var(--ac-orange);
   font-family: var(--font-mono);
-  font-size: 10px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.04em;
+  box-shadow:
+    inset 0 0 12px rgba(232, 93, 4, 0.12),
+    0 0 0 1px rgba(232, 93, 4, 0.08),
+    0 6px 18px rgba(0, 0, 0, 0.4);
+  transition:
+    transform var(--d-3) var(--ease-out),
+    box-shadow var(--d-3) var(--ease-out),
+    border-color var(--d-3) var(--ease-out),
+    background var(--d-3) var(--ease-out);
 }
 .funnel__node-label {
   color: var(--ac-ink);
   font-size: 12px;
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1.25;
   letter-spacing: -0.005em;
+  white-space: nowrap;
+  transition: color var(--d-3) var(--ease-out);
+}
+
+/* Hover state — the hovered node glows + scales, all other nodes dim. */
+.funnel__node:hover .funnel__node-num {
+  transform: scale(1.1);
+  border-color: var(--ac-orange);
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255, 170, 96, 0.55), rgba(232, 93, 4, 0.2) 65%),
+    rgb(40, 22, 10);
+  box-shadow:
+    inset 0 0 14px rgba(255, 170, 96, 0.35),
+    0 0 0 1px rgba(232, 93, 4, 0.5),
+    0 0 28px rgba(232, 93, 4, 0.55),
+    0 0 60px rgba(232, 93, 4, 0.25);
+}
+.funnel:has(.funnel__node:hover) .funnel__node:not(:hover) {
+  /* Dim via filter, NOT opacity — opacity would make the bubble
+     translucent and let the rotating ring line show through. */
+  filter: brightness(0.45) saturate(0.7);
 }
 
 @media (max-width: 760px) {
-  .funnel {
-    max-width: 90vw;
-  }
-  .funnel__node { width: 90px; }
+  .funnel { max-width: 90vw; }
+  .funnel__node { width: 100px; gap: 8px; }
+  .funnel__node-num { width: 44px; height: 44px; font-size: 12px; }
   .funnel__node-label { font-size: 11px; }
-  .funnel__center-title { font-size: 18px; }
-  .funnel__center-sub { font-size: 11px; }
+  .funnel__center { width: 180px; height: 90px; }
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .funnel__ring-pulse,
+  .funnel__infinity,
+  .funnel__infinity-flow {
+    animation: none;
+  }
+}
+
+/* Closing block — earns its own breathing room.
+   Top margin ≥160px per spec, scaled larger so node 05's BELOW tooltip
+   fits without clipping the closing line. */
+/* ≥160px between the two-column composition and the closing line. */
 .funnel-anchor {
-  margin-top: 48px;
+  margin-top: clamp(160px, 14vw, 200px);
+  margin-bottom: 120px;
   text-align: center;
 }
 .funnel-anchor__quote {
   font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: clamp(20px, 1.8vw + 1rem, 28px);
-  line-height: 1.3;
-  letter-spacing: -0.4px;
+  font-weight: 900;
+  font-size: clamp(36px, 4.5vw + 1rem, 64px);
+  line-height: 1.05;
+  letter-spacing: -2px;
   color: var(--ac-ink);
-  max-width: 56ch;
+  max-width: 22ch;
   margin: 0 auto;
+}
+.funnel-anchor__quote + .funnel-anchor__quote {
+  margin-top: 40px;
+}
+.funnel-anchor__quote--accent {
+  color: var(--ac-orange);
 }
 .funnel-anchor__attrib {
   margin-top: 12px;
@@ -1364,6 +1773,182 @@ a.logo-cell:hover .logo-cell__case-pill { opacity: 0; }
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--ac-mute);
+}
+
+/* ---------- Funnel + Stage Detail two-column layout ---------- */
+
+.funnel-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 88px;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.funnel-layout__loop {
+  /* Loop column — funnel sits centred in here, no internal padding. */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- Stage Detail panel (right column) ---------- */
+
+.stage-detail {
+  position: relative;
+  background: #141414;
+  border: 1px solid rgba(232, 93, 4, 0.15);
+  border-radius: 16px;
+  padding: 40px;
+  min-height: 320px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Subtle inner glow so the panel reads as a lit surface, not flat. */
+  box-shadow:
+    inset 0 0 60px rgba(232, 93, 4, 0.05),
+    0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* Stacked panes — only the active one is visible. Fades + slight lift. */
+.stage-detail__pane {
+  position: absolute;
+  inset: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 240ms var(--ease-out),
+    transform 240ms var(--ease-out);
+  pointer-events: none;
+}
+.stage-detail__pane.is-active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Default pane — hint + arrow cue. Centred. */
+.stage-detail__pane--default {
+  align-items: flex-start;
+  gap: 12px;
+}
+.stage-detail__hint-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ac-orange);
+  font-weight: 600;
+}
+.stage-detail__hint {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 1.5;
+  color: var(--ac-ink);
+  max-width: 28ch;
+  margin: 0;
+}
+.stage-detail__hint-cue {
+  color: rgba(232, 93, 4, 0.65);
+  margin-top: 6px;
+  display: inline-flex;
+  animation: ac-cue-nudge 2.4s ease-in-out infinite;
+}
+@keyframes ac-cue-nudge {
+  0%, 100% { transform: translateX(0); opacity: 0.65; }
+  50%      { transform: translateX(-6px); opacity: 1; }
+}
+
+/* Active stage pane — number / label / description hierarchy. */
+.stage-detail__num {
+  font-family: 'Arial Black', var(--font-sans);
+  font-weight: 900;
+  font-size: clamp(48px, 5vw + 1rem, 64px);
+  line-height: 1;
+  letter-spacing: -2px;
+  color: var(--ac-orange);
+  margin-bottom: 12px;
+}
+.stage-detail__label {
+  font-family: 'Arial Black', var(--font-sans);
+  font-weight: 900;
+  font-size: clamp(22px, 1.8vw + 1rem, 28px);
+  line-height: 1.1;
+  letter-spacing: -0.6px;
+  color: var(--ac-ink);
+  margin-bottom: 18px;
+}
+.stage-detail__desc {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ac-mute);
+  margin: 0;
+}
+
+/* When ANY node is hovered/active, dim non-active nodes — using filter
+   instead of opacity so bubbles stay opaque and the rotating ring line
+   never bleeds through them. */
+.funnel:has(.funnel__node:hover) .funnel__node:not(:hover),
+.funnel.has-active .funnel__node:not(.is-active) {
+  filter: brightness(0.45) saturate(0.7);
+}
+/* Active node — same glow we had on :hover, via class so it also
+   reflects the panel state on touch devices. */
+.funnel__node.is-active .funnel__node-num,
+.funnel__node:hover .funnel__node-num {
+  transform: scale(1.1);
+  border-color: var(--ac-orange);
+  background:
+    radial-gradient(circle at 30% 25%, rgba(255, 170, 96, 0.55), rgba(232, 93, 4, 0.2) 65%),
+    rgb(40, 22, 10);
+  box-shadow:
+    inset 0 0 14px rgba(255, 170, 96, 0.35),
+    0 0 0 1px rgba(232, 93, 4, 0.5),
+    0 0 28px rgba(232, 93, 4, 0.55),
+    0 0 60px rgba(232, 93, 4, 0.25);
+}
+
+/* Node is now a <button> — reset native styles. */
+.funnel__node {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.funnel__node:focus-visible {
+  outline: none;
+}
+.funnel__node:focus-visible .funnel__node-num {
+  box-shadow:
+    inset 0 0 14px rgba(255, 170, 96, 0.35),
+    0 0 0 2px var(--ac-orange),
+    0 0 28px rgba(232, 93, 4, 0.55);
+}
+
+/* ---------- Mobile: stack loop above panel ---------- */
+@media (max-width: 880px) {
+  .funnel-layout {
+    grid-template-columns: 1fr;
+    gap: 56px;
+  }
+  .stage-detail {
+    padding: 32px;
+    min-height: 240px;
+  }
+  .stage-detail__pane {
+    inset: 32px;
+  }
+  .stage-detail__hint-cue { display: none; }
 }
 
 /* ---------- Four-Pillar grid ---------- */
@@ -1376,31 +1961,85 @@ a.logo-cell:hover .logo-cell__case-pill { opacity: 0; }
 @media (max-width: 560px) { .pillars-grid { grid-template-columns: 1fr; } }
 
 .pillar-card {
-  padding: 32px 28px;
+  position: relative;
+  overflow: hidden;
+  padding: 32px;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  height: 100%;
+  background:
+    linear-gradient(135deg,
+      rgba(255, 255, 255, 0.03) 0%,
+      rgba(255, 255, 255, 0)   55%,
+      rgba(0, 0, 0, 0.18)      100%),
+    #141414;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 16px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition:
+    transform 250ms var(--ease-out),
+    border-color 250ms var(--ease-out),
+    box-shadow 250ms var(--ease-out);
 }
+/* Left-edge orange accent bar — fades top to bottom for depth. */
+.pillar-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(
+    to bottom,
+    var(--ac-orange) 0%,
+    rgba(232, 93, 4, 0.4) 100%
+  );
+  transition: filter 250ms var(--ease-out);
+}
+.pillar-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(232, 93, 4, 0.3);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 14px 32px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(232, 93, 4, 0.08);
+}
+.pillar-card:hover::before {
+  filter: drop-shadow(0 0 8px rgba(232, 93, 4, 0.6)) brightness(1.15);
+}
+
+.pillar-card__icon {
+  display: inline-flex;
+  color: var(--ac-orange);
+  margin-bottom: 28px;
+  transition: filter 250ms var(--ease-out);
+}
+.pillar-card:hover .pillar-card__icon {
+  filter: drop-shadow(0 0 6px rgba(232, 93, 4, 0.5)) brightness(1.15);
+}
+
 .pillar-card__num {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ac-orange);
+  margin-bottom: 14px;
 }
 .pillar-card__title {
   font-family: var(--font-sans);
   font-weight: 600;
-  font-size: 22px;
-  line-height: 1.15;
-  letter-spacing: -0.5px;
+  font-size: 20px;
+  line-height: 1.2;
+  letter-spacing: -0.4px;
   color: var(--ac-ink);
+  margin-bottom: 18px;
+  text-wrap: balance;
 }
 .pillar-card__body {
   font-size: 14px;
-  line-height: 1.55;
+  line-height: 1.7;
   color: var(--ac-mute);
 }
 
@@ -1409,7 +2048,7 @@ a.logo-cell:hover .logo-cell__case-pill { opacity: 0; }
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 64px;
-  align-items: center;
+  align-items: start;
 }
 @media (max-width: 960px) {
   .os-block { grid-template-columns: 1fr; gap: 40px; }
@@ -1419,6 +2058,14 @@ a.logo-cell:hover .logo-cell__case-pill { opacity: 0; }
   flex-direction: column;
   gap: 20px;
   align-items: flex-start;
+  /* Sticky-left scroll: the copy column stays in view while the right
+     module grid scrolls past. Disabled on mobile where the layout stacks. */
+  position: sticky;
+  top: 96px;
+  align-self: start;
+}
+@media (max-width: 960px) {
+  .os-block__copy { position: static; top: auto; }
 }
 .os-block__copy .t-display {
   font-size: clamp(32px, 3vw + 1rem, 44px);
@@ -1462,6 +2109,8 @@ a.logo-cell:hover .logo-cell__case-pill { opacity: 0; }
   height: 8px;
   border-radius: 2px;
   background: var(--ac-orange);
+  box-shadow: 0 0 6px var(--ac-orange);
+  animation: ac-dot-pulse 2.2s ease-in-out infinite;
 }
 .os-preview__breadcrumb {
   font-family: var(--font-mono);
@@ -1482,6 +2131,7 @@ a.logo-cell:hover .logo-cell__case-pill { opacity: 0; }
   display: flex;
   flex-direction: column;
   gap: 8px;
+  min-height: 244px;
   transition: background var(--d-2) var(--ease-out);
 }
 .os-tile:hover { background: var(--ac-surface-2); }
@@ -1501,7 +2151,74 @@ a.logo-cell:hover .logo-cell__case-pill { opacity: 0; }
 }
 .os-tile__count {
   font-size: 12px;
+  line-height: 1.5;
   color: var(--ac-mute);
+  margin-top: 2px;
+  text-wrap: pretty;
+}
+
+/* Tool stack row — 32×32 monochrome logo chips, left-aligned, sit below
+   the tagline with breathing room. On tile hover the chips brighten and
+   cascade up with a left-to-right stagger. */
+.os-tile__tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 24px;
+}
+.os-tile__tool {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(20, 20, 20, 0.6);
+  opacity: 0.8;
+  transition:
+    opacity 200ms var(--ease-out),
+    transform 200ms var(--ease-out);
+}
+.os-tile__tool img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  /* Simple Icons CDN delivers a white SVG via /ffffff, so no filter
+     needed. */
+}
+.os-tile__tool--text {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 9px;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.95);
+  text-align: center;
+  line-height: 1;
+  padding: 2px;
+}
+
+/* Tile hover — brighten + cascade lift. */
+.os-tile:hover .os-tile__tool {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+.os-tile:hover .os-tile__tool:nth-child(1) { transition-delay: 0ms; }
+.os-tile:hover .os-tile__tool:nth-child(2) { transition-delay: 40ms; }
+.os-tile:hover .os-tile__tool:nth-child(3) { transition-delay: 80ms; }
+.os-tile:hover .os-tile__tool:nth-child(4) { transition-delay: 120ms; }
+.os-tile:hover .os-tile__tool:nth-child(5) { transition-delay: 160ms; }
+
+/* Secondary subhead under the case-studies headline — smaller, muted,
+   sits beneath the primary t-sub with a tight rag and clear hierarchy. */
+.cs-section-sub {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.5);
+  text-align: center;
+  letter-spacing: -0.005em;
 }
 
 /* ---------- Case studies grid ---------- */
@@ -1520,38 +2237,63 @@ a.logo-cell:hover .logo-cell__case-pill { opacity: 0; }
   cursor: pointer;
   text-decoration: none;
   transition: border-color var(--d-2) var(--ease-out),
-              transform var(--d-2) var(--ease-out);
+              transform var(--d-2) var(--ease-out),
+              opacity 250ms var(--ease-out);
 }
 .cs-card:hover {
   transform: translateY(-2px);
   border-color: var(--ac-hairline-3);
   color: inherit;
 }
+
+/* Hover focus — when any card in the row is hovered, the others dim
+   slightly to draw the eye to the active one. */
+.case-studies-grid:has(.cs-card:hover) .cs-card:not(:hover) {
+  opacity: 0.4;
+}
 .cs-card__media {
   position: relative;
-  height: 200px;
+  height: 100px;
   background:
-    repeating-linear-gradient(135deg,
-      rgba(232, 93, 4, 0.06) 0 8px,
-      rgba(232, 93, 4, 0.12) 8px 16px),
-    var(--ac-black);
+    linear-gradient(135deg,
+      rgba(232, 93, 4, 0.12) 0%,
+      rgba(232, 93, 4, 0.04) 45%,
+      transparent 100%),
+    #141414;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 20px;
+  padding: 16px;
   border-bottom: 1px solid var(--ac-hairline);
 }
-.cs-card__tag {
+.cs-card__tags {
   position: absolute;
-  top: 16px;
-  left: 16px;
+  top: 14px;
+  left: 14px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.cs-card__tag,
+.cs-card__type {
+  font-size: 9px;
+}
+
+/* Drop the ::after dash on the card-level tertiary CTA — the → arrow
+   already in the text is enough, the extra dash looked redundant. */
+.cs-card .btn--tertiary::after {
+  display: none;
 }
 .cs-card__meta {
   font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.14em;
+  font-size: 12px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--ac-mute);
+  color: rgba(250, 250, 250, 0.85);
+}
+.cs-card__meta .cs-card__meta-brand {
+  color: var(--ac-ink);
+  font-weight: 700;
 }
 .cs-card__body { padding: 28px; }
 .cs-card__stat {
@@ -1570,6 +2312,27 @@ a.logo-cell:hover .logo-cell__case-pill { opacity: 0; }
   color: var(--ac-mute);
   margin-bottom: 16px;
 }
+.cs-card__tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: -8px 0 24px;
+}
+.cs-card__tools .os-tile__tool {
+  transition:
+    opacity 200ms var(--ease-out),
+    transform 200ms var(--ease-out);
+}
+.cs-card:hover .cs-card__tools .os-tile__tool {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+.cs-card:hover .cs-card__tools .os-tile__tool:nth-child(1) { transition-delay: 0ms; }
+.cs-card:hover .cs-card__tools .os-tile__tool:nth-child(2) { transition-delay: 40ms; }
+.cs-card:hover .cs-card__tools .os-tile__tool:nth-child(3) { transition-delay: 80ms; }
+.cs-card:hover .cs-card__tools .os-tile__tool:nth-child(4) { transition-delay: 120ms; }
+.cs-card:hover .cs-card__tools .os-tile__tool:nth-child(5) { transition-delay: 160ms; }
+
 .cs-card__head {
   font-size: 17px;
   font-weight: 700;
@@ -1585,40 +2348,1386 @@ a.logo-cell:hover .logo-cell__case-pill { opacity: 0; }
 }
 
 /* ---------- Stat strip / credibility moment ---------- */
+/* Section 8 — pure stat strip. No eyebrow, no headline, generous
+   vertical padding above and below. The numbers do the talking. */
+.section--stats {
+  padding-top: clamp(120px, 12vw, 180px);
+  padding-bottom: clamp(120px, 12vw, 180px);
+}
+
 .stat-strip {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  border: 1px solid var(--ac-hairline);
-  border-radius: var(--r-md);
-  overflow: hidden;
-  background: var(--ac-surface);
+  background: transparent;
+  border: 0;
+  border-radius: 0;
 }
 .stat-cell {
-  padding: 40px 28px;
-  border-right: 1px solid var(--ac-hairline);
-  text-align: left;
+  padding: 0 28px;
+  text-align: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
 }
-.stat-cell:last-child { border-right: 0; }
+/* Thin orange divider between stats on desktop. */
+.stat-cell + .stat-cell::before {
+  content: '';
+  position: absolute;
+  top: 8%;
+  bottom: 8%;
+  left: 0;
+  width: 1px;
+  background: rgba(232, 93, 4, 0.2);
+  pointer-events: none;
+}
 .stat-cell__num {
-  font-family: var(--font-sans);
-  font-weight: 600;
-  font-size: clamp(36px, 3vw + 1rem, 56px);
+  font-family: 'Arial Black', var(--font-sans);
+  font-weight: 900;
+  font-size: clamp(56px, 7vw + 1rem, 96px);
   line-height: 1;
-  letter-spacing: -2px;
-  color: var(--ac-ink);
-  margin-bottom: 8px;
+  letter-spacing: -2.5px;
+  color: var(--ac-orange);
 }
 .stat-cell__label {
+  font-family: 'Arial', var(--font-sans);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #888888;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+/* Entrance animation — fade in + 16px translate up, staggered. */
+.reveal-stat {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 600ms var(--ease-out),
+    transform 600ms var(--ease-out);
+}
+.reveal-stat.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-stat:nth-child(1).is-visible { transition-delay: 0ms; }
+.reveal-stat:nth-child(2).is-visible { transition-delay: 100ms; }
+.reveal-stat:nth-child(3).is-visible { transition-delay: 200ms; }
+.reveal-stat:nth-child(4).is-visible { transition-delay: 300ms; }
+
+@media (max-width: 768px) {
+  .stat-strip { grid-template-columns: 1fr 1fr; row-gap: 56px; column-gap: 16px; }
+  .stat-cell + .stat-cell::before { display: none; }
+  /* Vertical hairline between left + right columns on mobile rows. */
+  .stat-cell:nth-child(odd)::after {
+    content: '';
+    position: absolute;
+    top: 8%;
+    bottom: 8%;
+    right: -8px;
+    width: 1px;
+    background: rgba(232, 93, 4, 0.18);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-stat { opacity: 1; transform: none; transition: none; }
+}
+
+/* =========================================================
+   /book-a-call page — focused conversion page.
+   Same dark canvas + brand language, but minimal: header
+   with logo only, hero, VSL slot, iClosed embed, trust strip,
+   minimal footer. No nav distractions.
+   ========================================================= */
+.page-book {
+  background: var(--ac-black);
+  position: relative;
+}
+/* Soft orange ambient glow behind the page — same warmth as the
+   homepage hero, but muted so the embed reads as the focal point. */
+.page-book::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 90% 50% at 50% -10%,
+      rgba(232, 93, 4, 0.10) 0%,
+      rgba(232, 93, 4, 0.03) 35%,
+      transparent 65%);
+}
+.page-book > * { position: relative; z-index: 1; }
+
+/* Minimal header — just the logo, no nav. */
+.site-header--minimal .site-nav { display: none; }
+.site-header--minimal .site-header__inner { justify-content: flex-start; }
+
+/* Hero block. */
+.bk-hero {
+  padding-top: clamp(120px, 14vw, 200px);
+  padding-bottom: clamp(40px, 5vw, 64px);
+  text-align: center;
+}
+.bk-hero__inner {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.bk-hero__headline {
+  font-family: var(--font-sans);
+  font-weight: var(--w-hero);
+  font-size: clamp(36px, 4.5vw + 1rem, 64px);
+  line-height: 1.06;
+  letter-spacing: -2px;
+  color: var(--ac-ink);
+  margin: 0;
+  text-wrap: balance;
+}
+.bk-hero__sub {
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ac-mute);
+  max-width: 56ch;
+  margin: 0;
+}
+
+/* iClosed booking widget container. */
+.bk-embed { padding: clamp(48px, 6vw, 88px) 0; }
+.bk-embed__frame {
+  max-width: 1080px;
+  min-height: 900px;
+  margin: 0 auto;
+  background: #141414;
+  border: 1px solid rgba(232, 93, 4, 0.15);
+  border-radius: 12px;
+  box-shadow:
+    inset 0 0 80px rgba(232, 93, 4, 0.06),
+    0 12px 32px rgba(0, 0, 0, 0.4);
+  padding: 20px;
+  overflow: hidden;
+}
+.bk-embed__frame iframe { width: 100%; min-height: 860px; border: 0; }
+
+/* Minimal trust strip — 5 logos at 50% opacity, monochrome white. */
+.bk-trust { padding: clamp(48px, 6vw, 80px) 0; text-align: center; }
+.bk-trust__caption {
   font-family: var(--font-mono);
   font-size: 11px;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ac-mute);
+  margin: 0 0 28px;
+}
+.bk-trust__logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 44px;
+  flex-wrap: wrap;
+}
+.bk-trust__logos img {
+  max-height: 36px;
+  max-width: 120px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.5;
+  transition: opacity var(--d-2) var(--ease-out);
+}
+.bk-trust__logos img:hover { opacity: 0.85; }
+
+/* Minimal footer. */
+.bk-footer {
+  margin-top: clamp(40px, 6vw, 64px);
+  padding: 40px 0 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+.bk-footer__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.bk-footer__email {
+  color: var(--ac-mute);
+  font-size: 14px;
+  text-decoration: none;
+}
+.bk-footer__email:hover { color: var(--ac-orange); }
+.bk-footer__base {
+  margin-top: 28px;
+  font-size: 12px;
+  color: var(--ac-mute);
+}
+
+@media (max-width: 720px) {
+  .bk-embed__frame { min-height: 800px; padding: 12px; }
+  .bk-trust__logos { gap: 24px; }
+  .bk-trust__logos img { max-height: 28px; max-width: 90px; }
+}
+
+/* =========================================================
+   /case-studies index page
+   Hero, 3-column grid override, closing CTA section.
+   ========================================================= */
+.cs-page-hero {
+  padding-top: clamp(120px, 14vw, 200px);
+  padding-bottom: clamp(64px, 8vw, 96px);
+  text-align: center;
+}
+.cs-page-hero__inner {
+  max-width: 820px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.cs-page-hero__headline {
+  font-family: var(--font-sans);
+  font-weight: var(--w-hero);
+  font-size: clamp(40px, 5vw + 1rem, 72px);
+  line-height: 1.04;
+  letter-spacing: -2.4px;
+  color: var(--ac-ink);
+  margin: 0;
+  text-wrap: balance;
+}
+.cs-page-hero__sub {
+  font-size: 18px;
+  line-height: 1.55;
+  color: var(--ac-mute);
+  max-width: 60ch;
+  margin: 4px 0 0;
+}
+.cs-page-hero__sub-2 {
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.5);
+  max-width: 72ch;
+  margin: 4px 0 0;
+}
+
+/* 2-column variant for the dedicated /case-studies index page —
+   bigger tiles, generous gaps, equal-height rows. */
+.case-studies-grid--page {
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  max-width: 1200px;
+  margin-inline: auto;
+}
+@media (max-width: 760px) {
+  .case-studies-grid--page { grid-template-columns: 1fr; }
+}
+
+.cs-page-grid-section {
+  padding-bottom: clamp(96px, 10vw, 140px);
+}
+
+/* Closing CTA. */
+.cs-page-close {
+  padding: clamp(96px, 11vw, 160px) 0 clamp(96px, 11vw, 140px);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: center;
+}
+.cs-page-close__inner {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.cs-page-close__headline {
+  font-family: var(--font-sans);
+  font-weight: var(--w-hero);
+  font-size: clamp(32px, 4vw + 1rem, 56px);
+  line-height: 1.06;
+  letter-spacing: -1.8px;
+  color: var(--ac-ink);
+  margin: 0;
+  text-wrap: balance;
+}
+.cs-page-close__sub {
+  font-size: 17px;
+  color: var(--ac-mute);
+  margin: 0 0 16px;
+}
+
+/* =========================================================
+   /booking-confirmed page — post-booking expectations.
+   Inherits .page-book canvas (dark + soft orange ambient glow).
+   ========================================================= */
+
+.bc-hero {
+  padding-top: clamp(120px, 14vw, 200px);
+  padding-bottom: clamp(48px, 6vw, 80px);
+  text-align: center;
+}
+.bc-hero__inner {
+  max-width: 760px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.bc-hero__headline {
+  font-family: 'Arial Black', var(--font-sans);
+  font-weight: 900;
+  font-size: clamp(36px, 4.5vw + 1rem, 64px);
+  line-height: 1.06;
+  letter-spacing: -2px;
+  color: var(--ac-ink);
+  margin: 0;
+  text-wrap: balance;
+}
+.bc-hero__sub {
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ac-mute);
+  max-width: 60ch;
+  margin: 0;
+}
+
+/* What to expect — 4 numbered points. */
+.bc-expect {
+  padding: clamp(48px, 6vw, 80px) 0;
+}
+.bc-list {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+.bc-list__item {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.bc-list__num {
+  font-family: 'Arial Black', var(--font-sans);
+  font-size: clamp(36px, 4vw + 1rem, 52px);
+  font-weight: 900;
+  letter-spacing: -1.2px;
+  color: var(--ac-orange);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.bc-list__body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.bc-list__label {
+  font-family: 'Arial', var(--font-sans);
+  font-weight: 700;
+  font-size: 19px;
+  line-height: 1.35;
+  letter-spacing: -0.3px;
+  color: var(--ac-ink);
+  margin: 0;
+}
+.bc-list__desc {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ac-mute);
+  margin: 0;
+}
+
+/* Before the call — three reflection prompts. */
+.bc-prep {
+  padding: clamp(48px, 7vw, 96px) 0 clamp(48px, 6vw, 80px);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: clamp(40px, 5vw, 64px);
+}
+.bc-prep__inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.bc-prep__headline {
+  font-family: 'Arial Black', var(--font-sans);
+  font-weight: 900;
+  font-size: clamp(24px, 2.2vw + 1rem, 32px);
+  line-height: 1.18;
+  letter-spacing: -0.8px;
+  color: var(--ac-ink);
+  margin: 0 0 28px;
+  text-align: center;
+}
+.bc-prep__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.bc-prep__list li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ac-ink);
+}
+.bc-prep__list li::before {
+  content: '';
+  position: absolute;
+  top: 10px;
+  left: 0;
+  width: 8px;
+  height: 1px;
+  background: var(--ac-orange);
+}
+
+/* Founder sign-off — small, personal. */
+.bc-signoff {
+  padding: clamp(40px, 5vw, 64px) 0 clamp(80px, 9vw, 120px);
+  text-align: center;
+}
+.bc-signoff__note {
+  font-family: var(--font-sans);
+  font-style: italic;
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--ac-mute);
+  margin: 0;
+}
+.bc-signoff__name {
+  font-style: normal;
+  font-weight: 600;
+  color: var(--ac-ink);
+  display: inline-block;
+  margin-top: 6px;
+}
+
+@media (max-width: 600px) {
+  .bc-list__item { gap: 8px; }
+  .bc-list__num { font-size: 40px; }
+}
+
+/* =========================================================
+   Section 12 — Final CTA / Book a Call with inline iClosed embed.
+   Scroll target for every "Book a Call" CTA across the homepage.
+   ========================================================= */
+.section--book-call {
+  padding-top: clamp(48px, 5vw, 70px);
+  padding-bottom: clamp(80px, 8vw, 120px);
+  scroll-margin-top: 80px;
+}
+.book-call__header {
+  max-width: 760px;
+  margin: 0 auto clamp(48px, 6vw, 72px);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.book-call__headline {
+  font-family: var(--font-sans);
+  font-weight: var(--w-hero);
+  font-size: clamp(34px, 4vw + 1rem, 56px);
+  line-height: 1.06;
+  letter-spacing: -1.8px;
+  color: var(--ac-ink);
+  margin: 0;
+  text-wrap: balance;
+}
+.book-call__sub {
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--ac-mute);
+  max-width: 60ch;
+  margin: 0;
+}
+
+/* iClosed inline widget — naked, full default container width. */
+.book-call__embed {
+  margin: 0 auto;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+}
+.book-call__embed .iclosed-widget { display: block; }
+
+.book-call__trust {
+  margin: clamp(40px, 5vw, 56px) 0 28px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--ac-mute);
 }
+
+/* Logo strip placed under the trust caption — reuses the homepage
+   .logo-strip marquee. Sized like the hero strip but without case-study
+   pills, badges, or anchor links inside. */
+.book-call__strip {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* =========================================================
+   Legal pages — /privacy, /terms-and-conditions
+   Minimal header, standard footer, long-form body content.
+   ========================================================= */
+
+.legal-hero {
+  padding-top: clamp(120px, 14vw, 200px);
+  padding-bottom: clamp(40px, 5vw, 64px);
+  text-align: center;
+}
+.legal-hero__inner {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+.legal-hero__headline {
+  font-family: 'Arial Black', var(--font-sans);
+  font-weight: 900;
+  font-size: clamp(36px, 4.5vw + 1rem, 64px);
+  line-height: 1.06;
+  letter-spacing: -2px;
+  color: var(--ac-ink);
+  margin: 0;
+  text-wrap: balance;
+}
+.legal-hero__sub {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ac-mute);
+  margin: 0;
+}
+
+.legal-content {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: clamp(40px, 6vw, 72px) 0 clamp(80px, 9vw, 120px);
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 15px;
+  line-height: 1.7;
+}
+.legal-content p { margin: 0 0 18px; }
+.legal-content p:last-child { margin-bottom: 0; }
+.legal-content h2 {
+  font-family: 'Arial Black', var(--font-sans);
+  font-weight: 900;
+  font-size: clamp(20px, 1.8vw + 1rem, 26px);
+  line-height: 1.2;
+  letter-spacing: -0.6px;
+  color: var(--ac-ink);
+  margin: 44px 0 18px;
+}
+.legal-content h2:first-child { margin-top: 0; }
+.legal-content ul {
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 0;
+}
+.legal-content ul li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: 10px;
+}
+.legal-content ul li::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 0;
+  width: 8px;
+  height: 1px;
+  background: rgba(232, 93, 4, 0.5);
+}
+.legal-content a {
+  color: var(--ac-orange);
+  text-decoration: none;
+}
+.legal-content a:hover { text-decoration: underline; }
+.legal-content strong { color: var(--ac-ink); font-weight: 700; }
+
+/* =========================================================
+   Individual case study (detail page) — /case-studies/<slug>
+   Template structure: hero, logo strip, tools row, prose,
+   dashboard proof, client card, repeat CTA, more case studies.
+   ========================================================= */
+
+.cs-detail-hero {
+  padding-top: clamp(120px, 14vw, 200px);
+  padding-bottom: clamp(48px, 6vw, 80px);
+}
+.cs-detail-hero__inner {
+  max-width: 1080px;
+  margin-inline: auto;
+}
+.cs-detail__sector {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ac-orange);
+  margin-bottom: 24px;
+}
+.cs-detail__h1 {
+  max-width: 24ch;
+  font-weight: 900;
+  font-size: clamp(38px, 4.8vw + 0.5rem, 68px);
+  letter-spacing: -2.2px;
+  line-height: 1.04;
+  color: var(--ac-ink);
+  margin: 0 0 32px;
+}
+.cs-detail__intro {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--ac-mute);
+  max-width: 70ch;
+  margin: 0 0 32px;
+}
+.cs-detail__cta-row { margin-bottom: 64px; }
+
+/* Hero stat strip — 4-column inline metric row */
+.cs-detail__stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  padding: 40px 0;
+  border-top: 1px solid var(--ac-hairline);
+  border-bottom: 1px solid var(--ac-hairline);
+}
+.cs-detail__stat-num {
+  font-family: var(--font-sans);
+  font-size: clamp(28px, 2.8vw + 0.4rem, 44px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -1.6px;
+  color: var(--ac-orange);
+  margin-bottom: 12px;
+}
+.cs-detail__stat-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ac-mute);
+  line-height: 1.4;
+}
 @media (max-width: 760px) {
-  .stat-strip { grid-template-columns: 1fr 1fr; }
-  .stat-cell { border-right: 0; border-bottom: 1px solid var(--ac-hairline); }
-  .stat-cell:nth-child(odd) { border-right: 1px solid var(--ac-hairline); }
-  .stat-cell:nth-last-child(1),
-  .stat-cell:nth-last-child(2) { border-bottom: 0; }
+  .cs-detail__stats { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+}
+
+/* Logo strip section · uses existing .logo-strip / .trust-meta classes */
+.cs-detail-logos {
+  padding: 32px 0 48px;
+  border-bottom: 1px solid var(--ac-hairline);
+}
+.cs-detail-logos__heading {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+/* Tools deployed strip */
+.cs-detail-tools {
+  padding: 48px 0;
+  border-bottom: 1px solid var(--ac-hairline);
+}
+.cs-detail__tools-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ac-mute);
+  margin-bottom: 16px;
+}
+.cs-detail__tools-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+/* Make detail-page chips a touch larger than the card chips */
+.cs-detail__tools-row .os-tile__tool {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  opacity: 0.9;
+}
+.cs-detail__tools-row .os-tile__tool img {
+  width: 26px;
+  height: 26px;
+}
+
+/* Prose section · 760px reading column.
+   Top padding is intentionally tighter so the prose sits close to the
+   hero stat strip without a big empty gap. */
+.cs-detail-prose {
+  padding: clamp(24px, 3vw, 40px) 0 clamp(48px, 6vw, 80px);
+}
+.cs-detail__prose {
+  max-width: 760px;
+  margin-inline: auto;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.7;
+  color: rgba(250, 250, 250, 0.78);
+}
+.cs-detail__prose p {
+  margin: 0 0 22px;
+}
+.cs-detail__prose strong {
+  color: var(--ac-ink);
+  font-weight: 600;
+}
+.cs-detail__prose h2 {
+  font-family: var(--font-sans);
+  font-weight: 900;
+  font-size: clamp(28px, 2.6vw + 0.4rem, 40px);
+  line-height: 1.15;
+  letter-spacing: -1.2px;
+  color: var(--ac-ink);
+  margin: 72px 0 24px;
+  text-wrap: balance;
+}
+.cs-detail__prose h3 {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.25;
+  letter-spacing: -0.4px;
+  color: var(--ac-ink);
+  margin: 48px 0 16px;
+}
+.cs-detail__prose ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px;
+}
+.cs-detail__prose ul li {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 10px;
+}
+.cs-detail__prose ul li::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 0;
+  width: 12px;
+  height: 1px;
+  background: var(--ac-orange);
+}
+
+/* Numbered list — orange counters for the Challenge breakdown */
+.cs-detail__numbered {
+  list-style: none;
+  padding: 0;
+  margin: 32px 0;
+  counter-reset: nlist;
+}
+.cs-detail__numbered li {
+  counter-increment: nlist;
+  position: relative;
+  padding-left: 44px;
+  margin-bottom: 28px;
+}
+.cs-detail__numbered li::before {
+  content: counter(nlist);
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  color: var(--ac-orange);
+  background: rgba(232, 93, 4, 0.08);
+  border: 1px solid rgba(232, 93, 4, 0.25);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.cs-detail__numbered li strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+/* Dashboard proof block — wider frame breaking the reading column */
+.cs-detail__dashboard {
+  max-width: 960px;
+  margin: 56px auto 24px;
+  padding: 0;
+}
+.cs-detail__dashboard-frame {
+  border: 1px solid var(--ac-hairline);
+  border-radius: 8px;
+  padding: 8px;
+  background: rgba(20, 20, 20, 0.6);
+}
+.cs-detail__dashboard-frame img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+.cs-detail__dashboard-caption {
+  margin-top: 16px;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ac-mute);
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* Inline 4-column proof stats sitting under the dashboard image */
+.cs-detail__support-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  max-width: 960px;
+  margin: 32px auto 64px;
+  padding: 28px 0;
+  border-top: 1px solid var(--ac-hairline);
+  border-bottom: 1px solid var(--ac-hairline);
+}
+.cs-detail__support-stats .cs-detail__stat-num {
+  font-size: clamp(20px, 1.8vw + 0.3rem, 28px);
+  letter-spacing: -0.8px;
+  color: var(--ac-ink);
+}
+@media (max-width: 760px) {
+  .cs-detail__support-stats { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+}
+
+/* Client sidebar card — sits at the end of the prose flow */
+.cs-detail__client-card {
+  max-width: 760px;
+  margin: 64px auto 0;
+  padding: 32px;
+  border: 1px solid var(--ac-hairline);
+  border-radius: 8px;
+  background: rgba(20, 20, 20, 0.4);
+}
+.cs-detail__client-card h4 {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ac-orange);
+  margin: 0 0 20px;
+}
+.cs-detail__client-meta {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 10px 24px;
+  margin: 0 0 24px;
+}
+.cs-detail__client-meta dt {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ac-mute);
+  align-self: center;
+}
+.cs-detail__client-meta dd {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ac-ink);
+  align-self: center;
+}
+.cs-detail__client-desc {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--ac-mute);
+}
+
+/* Repeat CTA block — full-width band */
+.cs-detail-cta {
+  padding: clamp(64px, 8vw, 120px) 0;
+  border-top: 1px solid var(--ac-hairline);
+  border-bottom: 1px solid var(--ac-hairline);
+  text-align: center;
+}
+.cs-detail-cta__headline {
+  font-family: var(--font-sans);
+  font-weight: 900;
+  font-size: clamp(32px, 3.8vw + 0.5rem, 56px);
+  line-height: 1.04;
+  letter-spacing: -2px;
+  color: var(--ac-ink);
+  max-width: 22ch;
+  margin: 0 auto 24px;
+  text-wrap: balance;
+}
+.cs-detail-cta__sub {
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--ac-mute);
+  max-width: 60ch;
+  margin: 0 auto 36px;
+}
+
+/* More case studies section */
+.cs-detail-more {
+  padding: clamp(64px, 7vw, 96px) 0;
+}
+.cs-detail-more__heading {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: clamp(24px, 2.2vw + 0.3rem, 32px);
+  letter-spacing: -0.6px;
+  color: var(--ac-ink);
+  margin: 0 0 40px;
+}
+
+/* Hero stat cell when it carries tool icons instead of a number. */
+.cs-detail__stat-num--text {
+  /* Same size/weight as the other stat numbers but neutral ink, not orange. */
+  color: var(--ac-ink);
+}
+.cs-detail__stat-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+.cs-detail__stat-tools .os-tile__tool {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  opacity: 0.9;
+}
+.cs-detail__stat-tools .os-tile__tool img {
+  width: 18px;
+  height: 18px;
+}
+
+/* Dashboard watermark — Acquiro mark overlaid at low opacity. */
+.cs-detail__dashboard-frame {
+  position: relative;
+}
+.cs-detail__dashboard-watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: clamp(160px, 28%, 320px);
+  height: auto;
+  transform: translate(-50%, -50%);
+  opacity: 0.4;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
+  filter: drop-shadow(0 0 16px rgba(0, 0, 0, 0.4));
+}
+
+/* Inline iClosed embed inside the case-study repeat CTA section.
+   The embed replaces the previous Book a Call button — sits below
+   the headline and supporting paragraph, capped at a sensible width
+   so the calendar UI doesn't span the entire band. */
+.cs-detail-cta__embed {
+  max-width: 920px;
+  margin: 0 auto;
+  text-align: left;
+}
+/* Embed renders unboxed — no border, no radius, just the calendar UI. */
+
+/* Back-to-index link on individual case study pages. Sits above the
+   sector tag at the top of the hero. Sized to read clearly as primary
+   navigation, with a hairline pill so it registers as a clickable
+   control at a glance. */
+.cs-detail__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ac-ink);
+  text-decoration: none;
+  margin-bottom: 28px;
+  padding: 8px 16px 8px 14px;
+  border: 1px solid var(--ac-hairline-2);
+  border-radius: 999px;
+  background: rgba(20, 20, 20, 0.6);
+  transition:
+    color var(--d-2) var(--ease-out),
+    border-color var(--d-2) var(--ease-out),
+    background var(--d-2) var(--ease-out);
+}
+.cs-detail__back-arrow {
+  display: inline-block;
+  font-size: 18px;
+  line-height: 1;
+  transition: transform var(--d-2) var(--ease-out);
+}
+.cs-detail__back:hover {
+  color: var(--ac-orange);
+  border-color: rgba(232, 93, 4, 0.4);
+  background: rgba(232, 93, 4, 0.06);
+}
+.cs-detail__back:hover .cs-detail__back-arrow {
+  transform: translateX(-3px);
+}
+
+/* =========================================================
+   Pathway pages — /foundation /growth /acquisition-accelerator
+   Locked composition: hero · value strip · what's included ·
+   how it works · Acquiro OS callout · related case studies ·
+   cross-pathway nav · repeat CTA · footer.
+   ========================================================= */
+
+.pathway-back-row {
+  padding-top: clamp(96px, 12vw, 160px);
+  padding-bottom: 0;
+}
+
+.pathway-hero {
+  padding-top: clamp(120px, 14vw, 200px);
+  padding-bottom: clamp(48px, 6vw, 80px);
+}
+.pathway-hero .cs-detail__back {
+  margin-bottom: 32px;
+}
+
+/* Value strip · re-uses .cs-detail__stats markup. Stat-num here
+   carries short text rather than a number, so size it accordingly. */
+.pathway-value-strip .cs-detail__stat-num {
+  font-size: clamp(22px, 2vw + 0.3rem, 30px);
+  letter-spacing: -0.8px;
+  color: var(--ac-ink);
+}
+
+/* Section wrappers shared across pathway pages */
+.pathway-section {
+  padding: clamp(48px, 6vw, 80px) 0;
+  border-top: 1px solid var(--ac-hairline);
+}
+.pathway-section__heading {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: clamp(28px, 2.6vw + 0.4rem, 40px);
+  line-height: 1.15;
+  letter-spacing: -1.2px;
+  color: var(--ac-ink);
+  margin: 0 0 32px;
+  max-width: 28ch;
+}
+
+/* "What's included" bullet list — orange tick dash on the left,
+   bolded inline lead-in within each bullet. */
+.pathway-includes {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  max-width: 760px;
+}
+.pathway-includes li {
+  padding-left: 32px;
+  position: relative;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.6;
+  color: rgba(250, 250, 250, 0.8);
+}
+.pathway-includes li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 14px;
+  width: 14px;
+  height: 1px;
+  background: var(--ac-orange);
+}
+.pathway-includes li strong {
+  color: var(--ac-ink);
+  font-weight: 600;
+}
+
+/* "How it works" body */
+.pathway-how p {
+  max-width: 760px;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.7;
+  color: rgba(250, 250, 250, 0.8);
+  margin: 0;
+}
+
+/* Acquiro OS callout block — condensed version of the homepage
+   Acquiro OS section. Identical on all three pathway pages. */
+.os-callout__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ac-orange);
+  margin: 0 0 24px;
+}
+.os-callout__h2 {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: clamp(28px, 2.6vw + 0.4rem, 40px);
+  line-height: 1.15;
+  letter-spacing: -1.2px;
+  color: var(--ac-ink);
+  margin: 0 0 28px;
+  max-width: 22ch;
+}
+.os-callout__body {
+  max-width: 760px;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.7;
+  color: rgba(250, 250, 250, 0.8);
+  margin: 0 0 20px;
+}
+.os-callout__body:last-child { margin-bottom: 0; }
+
+/* Related case studies on pathway pages — 2-column grid. Mobile
+   collapses to single column. */
+.pathway-related-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  max-width: 1200px;
+  margin-inline: auto;
+}
+@media (max-width: 760px) {
+  .pathway-related-grid { grid-template-columns: 1fr; }
+}
+
+/* Cross-pathway nav · hairline pills pointing to the other two
+   pathway pages. Same visual language as the back-link pill. */
+.cross-pathway-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.cross-pathway-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ac-ink);
+  text-decoration: none;
+  padding: 10px 18px;
+  border: 1px solid var(--ac-hairline-2);
+  border-radius: 999px;
+  background: rgba(20, 20, 20, 0.6);
+  transition:
+    color var(--d-2) var(--ease-out),
+    border-color var(--d-2) var(--ease-out),
+    background var(--d-2) var(--ease-out);
+}
+.cross-pathway-nav a:hover {
+  color: var(--ac-orange);
+  border-color: rgba(232, 93, 4, 0.4);
+  background: rgba(232, 93, 4, 0.06);
+}
+.cross-pathway-nav__arrow {
+  font-size: 16px;
+  line-height: 1;
+  transition: transform var(--d-2) var(--ease-out);
+}
+.cross-pathway-nav a:hover .cross-pathway-nav__arrow {
+  transform: translateX(3px);
+}
+
+/* Small "Learn more →" affordance on the homepage pathway-teaser
+   cards so the card reads unmistakably as a clickable destination. */
+.pathway-teaser__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--ac-orange);
+  transition: gap var(--d-2) var(--ease-out);
+}
+.pathway-teaser:hover .pathway-teaser__more {
+  gap: 10px;
+}
+
+/* Value-strip icon row · used in cell 3 of the pathway value strips
+   ("Paid media platforms"). Three brand chips sit side by side at the
+   same vertical position as the big text in the other cells. */
+.pathway-icons-row {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  font-size: 0;
+  letter-spacing: 0;
+}
+.pathway-icons-row .os-tile__tool {
+  opacity: 0.95;
+}
+
+/* Pathway-page sub-headline · sits between the H1 and the intro
+   paragraph. Echoes the homepage "How We Work" card description for
+   each pathway so the page reinforces the framing the user clicked. */
+.cs-detail__lede {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: clamp(20px, 1.6vw + 0.5rem, 28px);
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+  color: rgba(250, 250, 250, 0.72);
+  max-width: 42ch;
+  margin: -16px 0 32px;
+  text-wrap: balance;
+}
+
+/* Two-column variant of .pathways-grid · used on individual pathway
+   pages to feature the OTHER two pathways before the case studies. */
+.pathways-grid--two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (max-width: 760px) {
+  .pathways-grid--two { grid-template-columns: 1fr; }
+}
+
+/* ---------- Value strip cleanup ----------
+   Remove the hairline borders top + bottom of the row, reduce the
+   vertical padding around the section, and tighten the horizontal gap
+   between the 4 cells so the row reads as a cohesive unit. */
+.pathway-section.pathway-value-strip {
+  padding: clamp(16px, 2vw, 28px) 0;
+  border-top: 0;
+}
+.pathway-value-strip .cs-detail__stats {
+  padding: 0;
+  border-top: 0;
+  border-bottom: 0;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+@media (max-width: 760px) {
+  .pathway-value-strip .cs-detail__stats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+}
+@media (max-width: 520px) {
+  .pathway-value-strip .cs-detail__stats {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
+/* ---------- "How it works" month/phase blocks ----------
+   Stacked visual blocks with proper breathing room between them.
+   Each block: small mono-caps label, bold short title, muted body. */
+.pathway-phases {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 32px 0 28px;
+  max-width: 760px;
+}
+.pathway-phase {
+  padding: 24px 28px;
+  border: 1px solid var(--ac-hairline);
+  border-radius: 8px;
+  background: rgba(20, 20, 20, 0.4);
+}
+.pathway-phase__label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ac-orange);
+  margin: 0 0 10px;
+}
+.pathway-phase__title {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.25;
+  letter-spacing: -0.5px;
+  color: var(--ac-ink);
+  margin: 0 0 10px;
+}
+.pathway-phase__body {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  color: rgba(250, 250, 250, 0.75);
+  margin: 0;
+}
+@media (max-width: 640px) {
+  .pathway-phase { padding: 20px 22px; }
+}
+
+/* Inline pathway-phase head — label + title on a single line with a
+   middle-dot separator. Replaces the previous stacked layout where
+   the label sat above the title on its own line. */
+.pathway-phase__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 10px;
+  row-gap: 4px;
+  margin: 0 0 10px;
+  /* Strip the default h3 typography so the inner spans drive it. */
+  font-family: inherit;
+  font-weight: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+}
+.pathway-phase__head .pathway-phase__label {
+  margin: 0;
+  font-size: 12px;
+}
+.pathway-phase__head .pathway-phase__title {
+  margin: 0;
+  font-size: 18px;
+  display: inline;
+}
+.pathway-phase__sep {
+  color: rgba(250, 250, 250, 0.35);
+  font-size: 14px;
+  line-height: 1;
 }
