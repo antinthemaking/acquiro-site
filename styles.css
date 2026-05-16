@@ -4101,14 +4101,34 @@ html, body {
   }
   .stat-cell { width: 100%; }
 
-  /* ---------- Funnel · balanced, compact breathing room above and
-       below the diagram. Top and bottom padding match at 18px so the
-       diagram sits with symmetrical, tight spacing. ---------- */
+  /* ---------- Funnel · CONTAIN the diagram. Each .funnel__node is
+       absolutely positioned with its CENTER on the ring, so the disc +
+       label extend ~33px beyond the .funnel box on every side. Without
+       containment, the topmost bubble ("01 Content") overlaps the
+       subheadline above and the bottom label crowds the accordion
+       below. The fix: pad .funnel-layout__loop on the block axis so
+       that its inner box fully contains the bubble + label overflow
+       AND adds ~40px clear breathing room above and below the diagram.
+       Surrounding margins/gaps zeroed so the loop's padding owns the
+       spacing end-to-end. Funnel max-width + label font reduced so
+       labels don't overflow the viewport horizontally. ---------- */
+  .funnel {
+    max-width: 220px;
+  }
+  .funnel__node-label {
+    font-size: 10px;
+  }
+  .funnel-layout__loop {
+    padding-block: 72px;
+  }
   .section--funnel .section-header {
-    margin-bottom: 18px;
+    margin-bottom: 0;
+  }
+  .funnel-layout {
+    gap: 0;
   }
   .funnel-accordion-wrap {
-    margin-top: 18px;
+    margin-top: 0;
   }
 
   /* ---------- Funnel node tap feedback · explicit :active state so
