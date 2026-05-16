@@ -3988,3 +3988,15 @@ html, body {
     font-size: 0;
   }
 }
+
+/* =========================================================
+   Mobile hero · lock min-height to a fixed pixel value
+   so the hero doesn't grow/shrink as mobile browser chrome
+   (the URL bar) shows + hides during scroll. The desktop
+   max(720px, 100vh) sizing stays unchanged for >760px.
+   ========================================================= */
+@media (max-width: 760px) {
+  .hero {
+    min-height: 720px;
+  }
+}
