@@ -1730,7 +1730,7 @@ a.logo-cell:hover .logo-cell__case-pill { opacity: 0; }
   .funnel__node { width: 100px; gap: 8px; }
   .funnel__node-num { width: 44px; height: 44px; font-size: 12px; }
   .funnel__node-label { font-size: 11px; }
-  .funnel__center { width: 180px; height: 90px; }
+  .funnel__center { width: 72px; height: 36px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
