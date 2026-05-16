@@ -21,7 +21,7 @@
 
   <link rel="preconnect" href="https://app.iclosed.io" crossorigin />
   <link rel="prefetch" href="https://app.iclosed.io/e/acquiro-tbof/acquiro-strategy-call-w-anthony" />
-  <link rel="stylesheet" href="/styles.css?v=33" />
+  <link rel="stylesheet" href="/styles.css?v=34" />
 
   <!-- iClosed Lift Widget begin -->
   <script type="text/javascript" src="https://app.iclosed.io/assets/widget.js" data-cta-widget="Er8y9zH76J7h" async></script>
@@ -335,7 +335,7 @@
             <p class="funnel-accordion__hint">Tap any stage to explore how it works.</p>
             <ul class="funnel-accordion">
               <li class="funnel-accordion__item">
-                <details name="funnel-accordion">
+                <details name="funnel-accordion" data-stage="01">
                   <summary>
                     <span class="funnel-accordion__num">01</span>
                     <span class="funnel-accordion__label">Content</span>
@@ -345,7 +345,7 @@
                 </details>
               </li>
               <li class="funnel-accordion__item">
-                <details name="funnel-accordion">
+                <details name="funnel-accordion" data-stage="02">
                   <summary>
                     <span class="funnel-accordion__num">02</span>
                     <span class="funnel-accordion__label">Audience</span>
@@ -355,7 +355,7 @@
                 </details>
               </li>
               <li class="funnel-accordion__item">
-                <details name="funnel-accordion">
+                <details name="funnel-accordion" data-stage="03">
                   <summary>
                     <span class="funnel-accordion__num">03</span>
                     <span class="funnel-accordion__label">Acquisition System</span>
@@ -365,7 +365,7 @@
                 </details>
               </li>
               <li class="funnel-accordion__item">
-                <details name="funnel-accordion">
+                <details name="funnel-accordion" data-stage="04">
                   <summary>
                     <span class="funnel-accordion__num">04</span>
                     <span class="funnel-accordion__label">Paid Ads</span>
@@ -375,7 +375,7 @@
                 </details>
               </li>
               <li class="funnel-accordion__item">
-                <details name="funnel-accordion">
+                <details name="funnel-accordion" data-stage="05">
                   <summary>
                     <span class="funnel-accordion__num">05</span>
                     <span class="funnel-accordion__label">Backend &amp; AI</span>
@@ -385,7 +385,7 @@
                 </details>
               </li>
               <li class="funnel-accordion__item">
-                <details name="funnel-accordion">
+                <details name="funnel-accordion" data-stage="06">
                   <summary>
                     <span class="funnel-accordion__num">06</span>
                     <span class="funnel-accordion__label">New Buyers</span>
@@ -395,7 +395,7 @@
                 </details>
               </li>
               <li class="funnel-accordion__item">
-                <details name="funnel-accordion">
+                <details name="funnel-accordion" data-stage="07">
                   <summary>
                     <span class="funnel-accordion__num">07</span>
                     <span class="funnel-accordion__label">Maximise CLTV</span>
@@ -405,7 +405,7 @@
                 </details>
               </li>
               <li class="funnel-accordion__item">
-                <details name="funnel-accordion">
+                <details name="funnel-accordion" data-stage="08">
                   <summary>
                     <span class="funnel-accordion__num">08</span>
                     <span class="funnel-accordion__label">Funnel Optimisation</span>
@@ -808,6 +808,30 @@
           </div>
         </div>
 
+        <!-- Mobile-only · two separate cards. Hidden on desktop via CSS.
+             Same 8 cell contents as the table above, restructured into two
+             self-contained cards with a clear gap between them. -->
+        <div class="scope-cards-mobile" aria-hidden="true">
+          <div class="scope-card scope-card--do">
+            <h4 class="scope-card__heading">What we do</h4>
+            <ul class="scope-card__list">
+              <li><span class="scope-card__mark" aria-hidden="true">&check;</span>Build the acquisition architecture.</li>
+              <li><span class="scope-card__mark" aria-hidden="true">&check;</span>Run the paid media.</li>
+              <li><span class="scope-card__mark" aria-hidden="true">&check;</span>Provide the playbooks, frameworks, and SOPs.</li>
+              <li><span class="scope-card__mark" aria-hidden="true">&check;</span>Coach you on how to execute them.</li>
+            </ul>
+          </div>
+          <div class="scope-card scope-card--dont">
+            <h4 class="scope-card__heading">What we don&rsquo;t</h4>
+            <ul class="scope-card__list">
+              <li><span class="scope-card__mark" aria-hidden="true">&times;</span>Film your content.</li>
+              <li><span class="scope-card__mark" aria-hidden="true">&times;</span>Manage your social media.</li>
+              <li><span class="scope-card__mark" aria-hidden="true">&times;</span>Create your day-to-day creative output.</li>
+              <li><span class="scope-card__mark" aria-hidden="true">&times;</span>Execute SOPs on your behalf.</li>
+            </ul>
+          </div>
+        </div>
+
         <p class="scope-closing reveal">A focused scope keeps the model lean, and our services are accessible to ambitious brands at any stage.</p>
       </div>
     </section>
@@ -968,6 +992,6 @@
     </div>
   </footer>
 
-  <script src="/script.js?v=7" defer></script>
+  <script src="/script.js?v=8" defer></script>
 </body>
 </html>

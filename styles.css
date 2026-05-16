@@ -4000,3 +4000,132 @@ html, body {
     min-height: 720px;
   }
 }
+
+/* =========================================================
+   Mobile scope cards · "What we do" / "What we don't" rendered as
+   two distinct cards on mobile, replacing the desktop two-column
+   table. Hidden on desktop.
+   ========================================================= */
+.scope-cards-mobile { display: none; }
+
+@media (max-width: 760px) {
+  /* Hide the desktop scope table and the obsolete display:contents +
+     order trick from the earlier mobile pass. */
+  .scope-table { display: none; }
+
+  /* Show the new two-card mobile layout. */
+  .scope-cards-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .scope-card {
+    padding: 28px 24px;
+    border: 1px solid var(--ac-hairline);
+    border-radius: 12px;
+    background: var(--ac-surface);
+  }
+  .scope-card--do {
+    border-color: rgba(232, 93, 4, 0.18);
+  }
+  .scope-card__heading {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ac-orange);
+    margin: 0 0 18px;
+  }
+  .scope-card--dont .scope-card__heading {
+    color: rgba(255, 255, 255, 0.55);
+  }
+  .scope-card__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .scope-card__list li {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.45;
+    color: var(--ac-ink);
+  }
+  .scope-card__mark {
+    flex: 0 0 auto;
+    width: 16px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .scope-card--do .scope-card__mark { color: var(--ac-orange); }
+  .scope-card--dont .scope-card__mark { color: rgba(255, 255, 255, 0.5); }
+
+  /* Section-header (scope-header) padding tightened on mobile to match
+     the rest of the homepage section headers. Plus reduce the section's
+     own top/bottom padding so the headline sits closer to the section
+     above and below. */
+  .section--scope {
+    padding-top: clamp(48px, 6vw, 72px);
+    padding-bottom: clamp(48px, 6vw, 72px);
+  }
+  .scope-header {
+    margin-bottom: var(--s-7);
+  }
+  /* Closing line gets natural top margin from the cards' card-style
+     spacing — no need for additional clamp-based bottom margin. */
+  .scope-closing {
+    margin-top: clamp(28px, 4vw, 40px);
+  }
+
+  /* ---------- Stat strip · explicitly centre on mobile so the row of
+       stats sits with equal margin on both sides of the viewport. The
+       2-column grid wasn't auto-centring because nothing constrained
+       its width inside the .container. ---------- */
+  .stat-strip {
+    max-width: 480px;
+    margin-inline: auto;
+    justify-content: center;
+    justify-items: center;
+  }
+  .stat-cell { width: 100%; }
+
+  /* ---------- Funnel · more breathing room above the diagram so it
+       doesn't sit too close to the section sub-headline. The previous
+       mobile rule clamped to ~40px; bump 4x to ~160px. ---------- */
+  .section--funnel .section-header {
+    margin-bottom: clamp(160px, 16vw, 200px);
+  }
+
+  /* ---------- Funnel → accordion · +50% gap below the diagram so
+       the Backend & AI node at the bottom has breathing room before
+       the accordion starts (24px → 36px). ---------- */
+  .funnel-accordion-wrap {
+    margin-top: 36px;
+  }
+
+  /* ---------- Funnel node tap feedback · explicit :active state so
+       users get instant visual confirmation that the tap registered,
+       independent of the sticky .is-active class set by the JS click
+       handler. ---------- */
+  .funnel__node {
+    -webkit-tap-highlight-color: transparent;
+    transition: transform 0.15s ease;
+  }
+  .funnel__node:active {
+    transform: scale(0.92);
+  }
+  .funnel__node:active .funnel__node-num {
+    background-color: rgba(232, 93, 4, 0.2);
+    color: var(--ac-orange);
+  }
+}

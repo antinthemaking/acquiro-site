@@ -127,12 +127,40 @@
       funnel.classList.remove('has-active');
     };
 
+    // On mobile, the .stage-detail hover panel is hidden in favour of
+    // the .funnel-accordion list below the diagram. Tapping a node
+    // expands the matching accordion item and smoothly scrolls it into
+    // view, giving touch users a single, predictable interaction.
+    const expandAccordionFor = (stageId) => {
+      const all = document.querySelectorAll('.funnel-accordion details');
+      let target = null;
+      all.forEach((d) => {
+        if (d.dataset.stage === stageId) {
+          target = d;
+        } else {
+          d.open = false;
+        }
+      });
+      if (target) {
+        target.open = true;
+        // requestAnimationFrame lets the open transition start before
+        // we scroll, so the height change is part of the smooth motion.
+        requestAnimationFrame(() => {
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+      }
+    };
+
     nodes.forEach((node) => {
       const stageId = node.dataset.stage;
 
       if (isTouch) {
-        // Tap stays sticky — no auto revert.
-        node.addEventListener('click', () => setActive(stageId));
+        // Tap stays sticky for the hidden panel state AND drives the
+        // mobile accordion expansion + scroll.
+        node.addEventListener('click', () => {
+          setActive(stageId);
+          expandAccordionFor(stageId);
+        });
       } else {
         node.addEventListener('mouseenter', () => setActive(stageId));
         node.addEventListener('mouseleave', clearActive);
