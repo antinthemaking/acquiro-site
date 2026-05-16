@@ -3753,9 +3753,14 @@ a.logo-cell:hover .logo-cell__case-pill { opacity: 0; }
    the mobile breakpoint. Desktop layouts stay untouched.
    ========================================================= */
 
-/* No horizontal page scroll anywhere on the site at any viewport. */
-html, body {
-  overflow-x: hidden;
+/* Mobile-only · prevent horizontal swipe/scroll on phone viewports.
+   Must NOT apply on desktop, because overflow-x: hidden on html/body
+   makes the root a scroll container, which silently breaks
+   `position: sticky` for every descendant (e.g. .os-block__copy). */
+@media (max-width: 760px) {
+  html, body {
+    overflow-x: hidden;
+  }
 }
 
 @media (max-width: 760px) {
