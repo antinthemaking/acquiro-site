@@ -96,6 +96,35 @@
     statIo.observe(statStrip);
   }
 
+  // iClosed Lift Widget — deferred load. The script is injected only
+  // after the visitor has been on the page for at least 5 seconds AND
+  // has scrolled at least once. Either condition alone is not enough.
+  // This keeps the floating popup from appearing on initial paint and
+  // ensures it only fires once the visitor is actively engaging.
+  (() => {
+    const DELAY_MS = 5000;
+    let timeElapsed = false;
+    let hasScrolled = false;
+    let injected = false;
+    const inject = () => {
+      if (injected || !timeElapsed || !hasScrolled) return;
+      injected = true;
+      const s = document.createElement('script');
+      s.src = 'https://app.iclosed.io/assets/widget.js';
+      s.async = true;
+      s.setAttribute('data-cta-widget', 'Er8y9zH76J7h');
+      document.head.appendChild(s);
+    };
+    setTimeout(() => { timeElapsed = true; inject(); }, DELAY_MS);
+    const onScroll = () => {
+      if (window.scrollY <= 0) return;
+      hasScrolled = true;
+      window.removeEventListener('scroll', onScroll);
+      inject();
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+
   // Infinite Funnel — stage-detail panel.
   // Hovering (or focusing) a node updates the persistent panel on the right;
   // leaving reverts to the default hint. On touch devices we use tap to set
