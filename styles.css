@@ -3837,3 +3837,154 @@ html, body {
     row-gap: 30px;
   }
 }
+
+/* =========================================================
+   Mobile-only accordion · replaces the desktop stage-detail hover
+   panel on touch devices. Uses native <details name="..."> so only
+   one item is open at a time.
+   ========================================================= */
+
+/* Hidden by default · revealed in the 760px mobile breakpoint below. */
+.funnel-accordion-wrap { display: none; }
+
+@media (max-width: 760px) {
+  /* Hide the desktop hover panel on mobile. */
+  .stage-detail { display: none; }
+
+  /* Show + style the accordion. */
+  .funnel-accordion-wrap {
+    display: block;
+    margin-top: 24px;
+    grid-column: 1 / -1;
+  }
+  .funnel-accordion__eyebrow {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ac-orange);
+    margin-bottom: 8px;
+  }
+  .funnel-accordion__hint {
+    margin: 0 0 20px;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ac-mute);
+  }
+
+  .funnel-accordion {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--ac-hairline);
+    border-radius: 10px;
+    overflow: hidden;
+    background: rgba(20, 20, 20, 0.4);
+  }
+  .funnel-accordion__item + .funnel-accordion__item {
+    border-top: 1px solid var(--ac-hairline);
+  }
+  .funnel-accordion details {
+    transition: background-color 0.2s ease;
+  }
+  .funnel-accordion details[open] {
+    background: rgba(232, 93, 4, 0.06);
+  }
+  .funnel-accordion summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .funnel-accordion summary::-webkit-details-marker { display: none; }
+  .funnel-accordion summary::marker { content: ''; }
+
+  .funnel-accordion__num {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--ac-orange);
+    min-width: 22px;
+  }
+  .funnel-accordion__label {
+    flex: 1 1 auto;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.2px;
+    color: var(--ac-ink);
+  }
+  /* Plus / minus chevron drawn with two pseudo-elements so it can
+     animate between the two states without an SVG dependency. */
+  .funnel-accordion__chevron {
+    position: relative;
+    width: 14px;
+    height: 14px;
+    flex: 0 0 auto;
+  }
+  .funnel-accordion__chevron::before,
+  .funnel-accordion__chevron::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    background: rgba(250, 250, 250, 0.55);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  .funnel-accordion__chevron::before {
+    width: 14px;
+    height: 1.5px;
+  }
+  .funnel-accordion__chevron::after {
+    width: 1.5px;
+    height: 14px;
+  }
+  .funnel-accordion details[open] .funnel-accordion__chevron::before,
+  .funnel-accordion details[open] .funnel-accordion__chevron::after {
+    background: var(--ac-orange);
+  }
+  .funnel-accordion details[open] .funnel-accordion__chevron::after {
+    transform: scaleY(0);
+  }
+
+  .funnel-accordion__desc {
+    margin: 0;
+    padding: 0 18px 16px 54px;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.55;
+    color: rgba(250, 250, 250, 0.78);
+  }
+
+  /* ---------- Tighten the gap between section subheads and the
+       content block directly below them. Cut roughly in half on
+       mobile so sections feel cohesive, not floating in whitespace. */
+  .section-header { margin-bottom: var(--s-7); }
+  .section--funnel .section-header { margin-bottom: clamp(40px, 4vw, 60px); }
+
+  /* ---------- Founder quote · smaller on mobile so it reads as
+       natural prose rather than a billboard headline. The inline
+       break span — which is just a literal space character on
+       desktop — becomes a block-level paragraph break on mobile at
+       the natural pause point between the founding statement and
+       the operating principles. */
+  .founder-close__quote {
+    font-size: 17px;
+    line-height: 1.55;
+    letter-spacing: -0.2px;
+  }
+  .founder-close__quote-break {
+    display: block;
+    height: 0;
+    margin: 12px 0 0;
+    font-size: 0;
+  }
+}
