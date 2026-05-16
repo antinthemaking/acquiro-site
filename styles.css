@@ -3968,7 +3968,8 @@ html, body {
        content block directly below them. Cut roughly in half on
        mobile so sections feel cohesive, not floating in whitespace. */
   .section-header { margin-bottom: var(--s-7); }
-  .section--funnel .section-header { margin-bottom: clamp(40px, 4vw, 60px); }
+  /* .section--funnel .section-header is overridden later in this file
+     with the tight 18px value matching the funnel-accordion top gap. */
 
   /* ---------- Founder quote · smaller on mobile so it reads as
        natural prose rather than a billboard headline. The inline
@@ -4053,10 +4054,11 @@ html, body {
   .scope-card__list li {
     display: flex;
     align-items: baseline;
-    gap: 12px;
+    gap: 10px;
     font-family: var(--font-sans);
-    font-size: 15px;
-    line-height: 1.45;
+    font-size: 13px;
+    line-height: 1.4;
+    letter-spacing: -0.1px;
     color: var(--ac-ink);
   }
   .scope-card__mark {
@@ -4099,18 +4101,14 @@ html, body {
   }
   .stat-cell { width: 100%; }
 
-  /* ---------- Funnel · more breathing room above the diagram so it
-       doesn't sit too close to the section sub-headline. The previous
-       mobile rule clamped to ~40px; bump 4x to ~160px. ---------- */
+  /* ---------- Funnel · balanced, compact breathing room above and
+       below the diagram. Top and bottom padding match at 18px so the
+       diagram sits with symmetrical, tight spacing. ---------- */
   .section--funnel .section-header {
-    margin-bottom: clamp(160px, 16vw, 200px);
+    margin-bottom: 18px;
   }
-
-  /* ---------- Funnel → accordion · +50% gap below the diagram so
-       the Backend & AI node at the bottom has breathing room before
-       the accordion starts (24px → 36px). ---------- */
   .funnel-accordion-wrap {
-    margin-top: 36px;
+    margin-top: 18px;
   }
 
   /* ---------- Funnel node tap feedback · explicit :active state so
