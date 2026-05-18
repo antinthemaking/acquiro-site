@@ -8,7 +8,7 @@
   // - Auto-deploys on `git push` via Cloudflare's Git integration.
   // - Secrets (`META_CAPI_TOKEN`, etc.) are set with `wrangler secret put` —
   //   never committed.
-  "name": "acquiro",
+  "name": "acquiro-site",
   "main": "src/worker.js",
   "compatibility_date": "2026-05-07",
   "assets": {
